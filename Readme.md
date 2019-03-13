@@ -9,9 +9,9 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 	* RHS: Right Hand Side, donde se definen los criterios que la dispararán. 
 	* LHS: Left Hand Side, donde se definen las acciones que se ejecutarán.
 	
-La definición de las reglas puede implementarse de 2 maneras, mediante:
-* excel (.xls, .xlsx). Tambien llamadas Decision Tables . Nuestras reglas se pueden definir en este tipo de ficheros mas amigables para perfiles no tan tecnicos, que solo quieran precuparse de definir las reglas de negocio abstrayendose de todo lo que hay por debajo.
-* ficheros .drl (drools Rule File): ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
+&nbsp;&nbsp;&nbsp; La definición de las reglas puede implementarse de 2 maneras, mediante:
+** excel (.xls, .xlsx). Tambien llamadas Decision Tables . Nuestras reglas se pueden definir en este tipo de ficheros mas amigables para perfiles no tan tecnicos, que solo quieran precuparse de definir las reglas de negocio abstrayendose de todo lo que hay por debajo.
+** ficheros .drl (drools Rule File): ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
 
 * **WorkingMemory**: memoria de trabajo, es el contexto de ejecucion. En el se evaluan y ejecutan las reglas.
 
