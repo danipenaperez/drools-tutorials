@@ -10,6 +10,7 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 	* LHS: Left Hand Side, donde se definen las acciones que se ejecutarán.
 	
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; La definición de las reglas puede implementarse de 2 maneras, mediante:
+* 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Excel (.xls, .xlsx). Tambien llamadas Decision Tables . Nuestras reglas se pueden definir en este tipo de ficheros mas amigables para perfiles no tan tecnicos, que solo quieran precuparse de definir las reglas de negocio abstrayendose de todo lo que hay por debajo.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Ficheros .drl (drools Rule File): ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
 
