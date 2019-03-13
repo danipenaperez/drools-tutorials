@@ -1,13 +1,14 @@
 
 Definiciones
 ------------
-El el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios conceptos y agentes que intervienen en la configuracion y la ejecucion
+En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios conceptos y agentes que intervienen en su configuración y ejecución.
 
-* **Facts**: son los datos de entrada. Pueden ser POJOs, Clases Servicio, utilidades, basicamente lo que queramos.
+* **Facts**: son los datos de entrada. Pueden ser POJOs, Clases Servicio, utilidades, basicamente lo que queramos.Tambien podremos definirlas dentro de drools directamente.
 
 * **Rule**: Reglas, indican cuando se deben aplicar y que se debe ejecutar. Tiene 2 partes fundamentales
-	RHS: Right Hand Side, donde se definen los criterios que la dispararan. 
-	LHS: Left Hand Side, donde se definen las acciones.
+	* RHS: Right Hand Side, donde se definen los criterios que la dispararan. 
+	*LHS: Left Hand Side, donde se definen las acciones.
+	
 	La definicion de las reglas puede ser 2 tipos fundamentalmente:
 		-excel (.xls, .xlsx). Tambien llamadas Decision Tables . Nuestras reglas se pueden definir en este tipo de ficheros mas amigables para perfiles no tan tecnicos, que solo quieran precuparse de definir las reglas de negocio abstrayendose de todo lo que hay por debajo.
 		-ficheros .drl (drools Rule File): ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
@@ -22,7 +23,7 @@ El el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 La forma en como se buscan, indexan , interpretan las definiciones de reglas, el formato de contexto a usar (stateless/statefull), en definitiva la forma en la que el BPM compila las reglas y los POJOs es totalmente editable desde el API que nos proporciona jBPM y Drools. Como puedes imaginar, al tener acceso al compilador, puedes definir tipos dentro de drools que en tiempo de compilacion seran añadidos, edición de prototipos de clase y un largo etc...
 
-## KIE (Knowledge Is Everything)
+### KIE (Knowledge Is Everything)
 Si nuestro foco esta basado solo en el uso de la herramienta podemos usar "wrappers" de todo el ecosistema como es la inciativa KIE. 
 Estas librerias nos abstraen y proporcionan las herramientas de ejecucion basicas para el uso del JBPM.
 
