@@ -6,9 +6,9 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 * **Facts**: son los datos de entrada. Pueden ser POJOs, Clases Servicio, utilidades, basicamente lo que queramos.Tambien podremos definirlas dentro de drools directamente.
 
 * **Rule**: Reglas, indican cuando se deben aplicar y que se debe ejecutar. Tiene 2 partes fundamentales
-	* RHS: Right Hand Side, donde se definen los criterios que la dispararan. 
-	*LHS: Left Hand Side, donde se definen las acciones.
-	La definicion de las reglas puede ser 2 tipos fundamentalmente:
+	* RHS: Right Hand Side, donde se definen los criterios que la dispararán. 
+	* LHS: Left Hand Side, donde se definen las acciones que se ejecutarán.
+		-La definicion de las reglas puede ser 2 tipos fundamentalmente:
 		* excel (.xls, .xlsx). Tambien llamadas Decision Tables . Nuestras reglas se pueden definir en este tipo de ficheros mas amigables para perfiles no tan tecnicos, que solo quieran precuparse de definir las reglas de negocio abstrayendose de todo lo que hay por debajo.
 		* ficheros .drl (drools Rule File): ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
 
