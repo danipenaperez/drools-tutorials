@@ -22,7 +22,7 @@ El el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 La forma en como se buscan, indexan , interpretan las definiciones de reglas, el formato de contexto a usar (stateless/statefull), en definitiva la forma en la que el BPM compila las reglas y los POJOs es totalmente editable desde el API que nos proporciona jBPM y Drools. Como puedes imaginar, al tener acceso al compilador, puedes definir tipos dentro de drools que en tiempo de compilacion seran añadidos, edición de prototipos de clase y un largo etc...
 
-**KIE (Knowledge Is Everything).**
+## KIE (Knowledge Is Everything)
 Si nuestro foco esta basado solo en el uso de la herramienta podemos usar "wrappers" de todo el ecosistema como es la inciativa KIE. 
 Estas librerias nos abstraen y proporcionan las herramientas de ejecucion basicas para el uso del JBPM.
 
