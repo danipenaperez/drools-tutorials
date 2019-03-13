@@ -15,9 +15,9 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 	- *Ficheros .drl (Drools Rule File)*: ficheros de texto plano mucho mas versatiles donde se puede especificar a bajo nivel comportamientos que no seriamos capaces de definir en un amigable xls/xlsx.
 
-* **WorkingMemory**: memoria de trabajo, es el contexto de ejecucion. En el se evaluan y ejecutan las reglas.
+* **WorkingMemory**: memoria de trabajo, es el contexto de ejecución en el se evaluan y ejecutan las reglas, es decir el runtime.
 
-* **KnowledgeSession**: La session se crea dentro de la Working Memory. Esta es la encargada de la preparacion de la ejecucion y montar el ecosistemas de reglas asociadas a la ejecucion.
+* **KnowledgeSession**: La sesión se crea dentro de la Working Memory. Esta es la encargada de la preparacion de la ejecución y montar el ecosistema de reglas asociadas a dicha ejecución.
 
 * **KnowledgeBase**: Repositorio donde encontrar las reglas y construir la engine , es decir la Knowledge Session.Como puedes imaginar, ese repositorio puede nutrirse de diferentes fuentes de donde leer la definicion de las reglas: de un directorio local, un repositorio remoto centralizado y versionado de las reglas (, o al fin de alcabo cualquier cosa convertible a un array de bytes ... 
 
