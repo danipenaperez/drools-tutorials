@@ -23,16 +23,16 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 > *El proyecto Business Central Workbench WildFly WAR servido a traves del KIE Execution Server (Wildfly Application server) de la gente de JBoos nos permite desplegar un servidor centralizado de reglas, donde podemos editar, versionar y servir configuracion de una manera centralizada a distintos servidores de ejecucion.*
 
-La forma en como se buscan, indexan , interpretan las definiciones de reglas, el formato de contexto a usar (stateless/statefull), en definitiva la forma en la que el BPM compila las reglas y los POJOs es totalmente editable desde el API que nos proporciona jBPM y Drools. Como puedes imaginar, al tener acceso al compilador, puedes definir tipos dentro de drools que en tiempo de compilacion seran añadidos, edición de prototipos de clase y un largo etc...
+La forma en como se buscan, indexan , interpretan las definiciones de reglas, el estado de contexto a usar (stateless/statefull), en definitiva la forma en la que el BPM compila y actua es totalmente editable desde el API que nos proporciona jBPM y Drools. 
+
 
 ### KIE (Knowledge Is Everything)
-Si nuestro foco esta basado solo en el uso de la herramienta podemos usar "wrappers" de todo el ecosistema como es la inciativa KIE. 
-Estas librerias nos abstraen y proporcionan las herramientas de ejecucion basicas para el uso del JBPM.
+KIE Framework de la gente de RedHat nos proporciona un nivel de abstraccion para ofrecernos las herramientas básicas para el uso del jBPM.
 
 
 PREPARACION DEL ENTORNO
 -----------------------
-Podemos importar todas las dependencias desde los repositorios centrales de maven de manera agil :
+Podemos importar todas las dependencias desde los repositorios centrales de maven:
 ```
 <!-- JBPM and Spring integration -->
 <dependency>
@@ -51,8 +51,8 @@ Podemos importar todas las dependencias desde los repositorios centrales de mave
 
 PREPARANDO LA EJECUCION PARA UNOS TEST EXPLICATIVOS
 ---------------------------------------------------
-Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde para que aprendamos un poco a manejarnos
-en todo este rollo de las reglas. Posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como casaría aqui una aplicacion empresarial 
+
+Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde para que aprendamos un poco a manejarnos en todo este rollo de las reglas. Posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como casaría aqui una aplicacion empresarial 
 un poco mas "a lo grande".
 
 Lo primero generar la configuracion. Para instanciar el motor con Spring Boot es bien sencillo:
