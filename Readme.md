@@ -55,10 +55,8 @@ PREPARANDO LA EJECUCION PARA UNOS TEST EXPLICATIVOS
 Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde para que aprendamos un poco a manejarnos en todo este rollo de las reglas. Posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como casaría aqui una aplicacion empresarial 
 un poco mas "a lo grande".
 
-* Lo primero **generar la configuracion**
-Para instanciar el motor con Spring Boot es bien sencillo:
-generamos el archiconocido @Configuration que nos genere un KieContainer que encapsule el KnowledgeBase, 
-luego lo usaremos para crear  KnowledgeSession en las ejecuciones:
+## Lo primero **generar la configuracion**
+Para instanciar el motor del engine mediante Srping Boot es bien sencillo, basta con generar el archiconocido @Configuration que nos genere un KieContainer. Este KIECOntainer que encapsulará todos los elementos que comenteé al principio y nos proporcionara un API para interactuar con él. En pasos posteriores  lo usaremos para crear las KnowledgeSession cada vez que requiramos una ejecución:
 ```
 @Configuration
 public class BPMConfigurations {
