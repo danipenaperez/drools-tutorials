@@ -1,0 +1,6 @@
+package com.demo.product;
+
+//global Sets
+global com.dppware.droolsDemo.services.PushSubService publishTool;
+
+dialect  "mvel"

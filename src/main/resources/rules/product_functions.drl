@@ -1,0 +1,12 @@
+package com.demo.product;
+
+//Imported specified functions
+import function com.dppware.droolsDemo.utils.Utils.prettyTraces;
+
+
+//functions inline definition
+function Integer calculateIncrement(Integer value, int quantity) {
+    return value + quantity;
+}
+
+dialect  "mvel"

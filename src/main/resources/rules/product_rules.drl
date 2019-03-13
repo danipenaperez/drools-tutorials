@@ -1,0 +1,29 @@
+package com.demo.product;
+
+import com.dppware.droolsDemo.bean.*;
+
+dialect  "mvel"
+
+/**
+* javadoc description
+**/
+rule "Adjust Product Price"
+	when
+     	$p : ProductPrice(basePrice > 2 )
+    then
+    	modify($p){
+	    	setBasePrice($p.basePrice - 5);
+	    }
+	    prettyTraces("el precio ajustado es " + $p.basePrice);
+	    prettyTraces(calculateIncrement($p.basePrice, 3));
+	    
+	    //Instanciacion y print del object
+	    Product pro = new Product();
+	    pro.setCode(3321);
+	    pro.setName("Leche");
+	    pro.setDescription("Rica en Calcio");
+	    prettyTraces(pro);
+	    
+	    publishTool.publishNewProductCreated(pro);
+	    
+end

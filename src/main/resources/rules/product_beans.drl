@@ -1,0 +1,9 @@
+package com.demo.product;
+
+dialect  "mvel"
+
+declare Product
+   code : int
+   name : String
+   description : String
+end
