@@ -730,5 +730,29 @@ https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/
 
 Ls reglas de drools las podemos encapsular en .jar y manejar sus dependencias con Maven
 
+Usando el API
+ kieSession.addEventListener(new RuleRuntimeEventListener() {
+			
+			@Override
+			public void objectUpdated(ObjectUpdatedEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void objectInserted(ObjectInsertedEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void objectDeleted(ObjectDeletedEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+A veces nos interesa por performance crear una session que no contenga todas las reglas, porque si te paras a pensarlo, se evaluan todas las reglas cada vez que es disparada la ejecucion y en muchos casos eso puede no tener sentido con la consecuente degradacion de rendimiento.
+
 
 
