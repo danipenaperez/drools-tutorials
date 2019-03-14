@@ -52,15 +52,14 @@ Podemos importar todas las dependencias desde los repositorios centrales de mave
 PREPARANDO LA EJECUCION PARA UNOS TEST EXPLICATIVOS
 ---------------------------------------------------
 
-Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde para que aprendamos un poco a manejarnos en todo este rollo de las reglas. Posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como casaría aqui una aplicacion empresarial 
-un poco mas "a lo grande".
+Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde aprenderemos un poco a manejarnos con unas reglas sencillas y posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como aplicaríamos drools a un proyecto un poco mas "empresarial".
 
 ## Lo primero **generar la configuracion**
-Para instanciar el motor del engine mediante Srping Boot es bien sencillo, basta con generar el archiconocido @Configuration que nos genere un KieContainer. Este KIECOntainer que encapsulará todos los elementos que comenteé al principio y nos proporcionara un API para interactuar con él. En pasos posteriores  lo usaremos para crear las KnowledgeSession cada vez que requiramos una ejecución:
+Para instanciar el motor del engine mediante Spring Boot basta con generar nuestra clase de configuracion usando el archiconocido @Configuration y un metodo que inyecte en el contenedor un Bean KIEContainer. Este KIEContainer encapsula todos los elementos que comenteé al principio y nos proporcionara un API sencillo para interactuar con todos ellos. En este caso lo usaremos para crear la KnowledgeSession cada vez que requiramos una ejecución (si, cada ejecucion tiene su contexto por lo tanto su runtime):
 ```
 @Configuration
 public class BPMConfigurations {
-	//lives on classpath , in this case into -- src/main/resources/rules/*.drl 
+	//lives on classpath -- src/main/resources/rules/*.drl 
 	private static final String[] drlFiles = { "rules/discountRules.drl" };
 	@Bean
 	public KieContainer kieContainer() {
