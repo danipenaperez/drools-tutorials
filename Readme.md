@@ -728,5 +728,7 @@ Bueno, hemos visto:
 Toda la documentacion y el material bélico de de la verison 5 de Drools, la tienes aqui :
 https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/
 
+Ls reglas de drools las podemos encapsular en .jar y manejar sus dependencias con Maven
+
 
 
