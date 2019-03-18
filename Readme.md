@@ -160,8 +160,8 @@ Por partes:
 * **dialect** : el tipo de lenguage usado para las definiciones dentro de las reglas. Los 2 mas extendidos son 
 	* **"mvel"**-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion RHS.  
 	* Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
-	  	* * java version: $person.getAddresses().get("home").setStreetName("my street");
-		* * mvel version: $person.addresses["home"].streetName = "my street";
+	  	* java version: $person.getAddresses().get("home").setStreetName("my street");
+		* mvel version: $person.addresses["home"].streetName = "my street";
 		Tambien nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
 	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el then.
 
