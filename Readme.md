@@ -194,8 +194,8 @@ Para el ejemplo anterior podríamos condiciones mas complejas:
 
 Ejemplos:
 ```
-	$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
-```	
+$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
+```
 
 En vez de anidarlos tambien podemos usar la claúsula por defecto **and** y convertir la condicion anterior en 
 
@@ -213,17 +213,18 @@ Existe una evaluacion en modo manual que evalua (**eval({true|false})** a una ex
 		eval(callMyCustomFunctionThatReturnsABoolean)
 	then
 ``` 
-en el segundo eval, dejo ver que Drools como compilador tambien nos permite referenciar a metodos staticos de nuestro codigo o definir funciones dentro del mismo fichero .drl que como ya comente estaran disponibles en todo el package (namespace) (dentro de unas lineas lo vamos a ver..)
-``` 
+En el segundo eval, dejo ver que Drools como compilador tambien nos permite referenciar a metodos staticos de nuestro codigo o definir funciones dentro del mismo fichero .drl que como ya comente estaran disponibles en todo el package (namespace), esto lo vamos a ver en las siguentes secciones.
 
-modify (Aplicando ordenes en el then RHS )
--------------------------------------
-Muy bien ya hemos visto las conditios pero vamos a ver la órdenes. Hemos visto sencilla ejecucion con el system out, referenciando a la variable local de la rule:
+Modify{... (Aplicando ordenes en el then RHS )
+-----------------------------------------------
+Muy bien ya hemos visto las *conditios* pero vamos a ver la órdenes. Hemos visto una sencilla ejecucion con el system out, referenciando a la variable local de la rule:
 ```
     then
     	System.out.println("EJECUTANDO -Adjust Product Price- para el producto [" + $p + "]");
 ```
-si queremos aplicar una modificacion vamos a usar el bloque modify. Vamos a bajarle el basePrice un punto, nos quedara asi:
+
+Si queremos aplicar una modificación vamos a usar el bloque modify. Vamos a bajarle el basePrice un punto, nos quedara asi:
+
 ```
 import com.dppware.droolsDemo.bean.*;
 dialect  "mvel"
@@ -237,28 +238,31 @@ rule "Adjust Product Price"
 	    System.out.println("el precio ajustado es " + $p.basePrice);
 end
 ```
-Sencillo verdad? abrimos un bloque modify con el scope de la variable definida (ya que se cumplio el LHS) y en el contexto encontramos la funcion setBasePrice del objeto ProductPrice.
-Si metes esta regla y ejecutas veras este output:
-
+Sencillo verdad? abrimos un bloque modify con el scope de la variable definida (ya que se cumplio el LHS- *Left Hand Side*) y en el contexto encontramos la funcion setBasePrice del objeto ProductPrice.
+Si haces esta modificacion en codigo y ejecutas el Test veras este output:
+```
 el precio ajustado es 0
+```
 
 
-
-Rules Attributes
+Rules Attributes (orden de ejecución de las reglas, bucles infinitos, etc...)
 -----------------
-Como comente antes, el comportamiento en runtime de una rule se puede restringir. Para ello debemos usar los rule atributes que nos ofrece drools:
+Como comente antes, el comportamiento en runtime de una rule se puede restringir. Para ello debemos usar los rule atributes que nos ofrece drools. Estos se defienen justo debajo de la definición del nombre de la rule:
 ```
 rule 'rulename'
 	//rules Atributtes (availables: no-loop, salience, ruleflow-group, lock-on-active, agenda-group, 
 	// activation-group, auto-focus, dialect, date-effective, date-expires, duratio, timer, calendars
-	when
-	then:end
-```	
-Vamos a comentar 2 de ellas (las que me parecen mas genericas y obligatorias de conocer), si quieres profundizar tienes la referencia oficial aqui https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3761
+	when:
+		...
+	then:
+		...
+end
+```
+
+Vamos a comentar 2 de ellas (las que me parecen mas genericas y obligatorias de conocer), si quieres profundizar tienes la referencia oficial [aquí](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3761)
 
 #No-loop
-Imaginemos que metemos un Fact (ProductPrice.java) que su basePrice = 5 , cuando se cumple la condicion solo le restamos 1. Drools por defecto volvera a evaluar la LHS y verá que sigue cumpliendose
-asi que la regla será disparada varias veces, hasta que no se cumpla la condicion.
+Imaginemos que metemos un Fact (ProductPrice.java) que su basePrice = 5 , cuando se cumple la condicion solo le restamos 1. **Drools por defecto volvera a evaluar la LHS** y verá que sigue cumpliendose así que la regla será disparada varias veces, hasta que no se cumpla la condicion.
 ```
 rule "Adjust Product Price"
 	when
@@ -270,13 +274,17 @@ rule "Adjust Product Price"
 	    System.out.println("el precio ajustado es " + $p.basePrice);
 end
 ```
-Ouput:
+y el Ouput:
+```
 el precio ajustado es 4
 el precio ajustado es 3
 el precio ajustado es 2
+```
 
-Esto puede ser un problema potencial, porque si por ejemplo la ejecucion es de tipo void y no se modifica el Fact, entrariamos en un bucle infinito.
-Para asegurar que la regla (si se cumple) solo se ejecute una vez, usamos el atributo no-loop en la definicion de la regla y  vemos que podemos cambiar el comportamiento de la ejecucion:
+Esto puede ser un quebradero de cabeza en la ejecución, porque si por ejemplo la ejecucion es de tipo void y no se modifica el Fact, entrariamos en un bucle infinito.
+
+Para asegurar que la regla (si se cumple) solo se ejecute una vez, usamos el atributo **no-loop** en la definicion de la regla y  vemos que podemos cambiar el comportamiento de la ejecucion:
+```
 rule "Adjust Product Price"
 	no-loop
     when
@@ -287,14 +295,17 @@ rule "Adjust Product Price"
 	    }
 	    System.out.println("el precio ajustado es " + $p.basePrice);
 end
-Output:
+```
+Y ahora el Output:
+```
 el precio ajustado es 4
+```
 
 Solo se ha ejecutado 1 vez ya que solo se ha evaluado 1 vez.
 
 #Salience
-Por defecto Drools ordena las reglas de ejecucion en el orden que se las va encontrandoal parsear el fichero de reglas, de modo que en tiempo de ejecucion
-se ejecutaran las reglas que su RHS se cumpla y por el orden en el que se encontraron: 
+Por defecto Drools ordena las reglas de ejecución en el orden que se las va encontrando al parsear los fichero de reglas(.drl), de modo que en tiempo de ejecución se ejecutaran las reglas que su RHS se cumpla y por el orden en el que se encontrarón.
+
 Imagina esta definicion de drl en la que hemos introducido 2 reglas: 
 ```	
 rule "Adjust Product Price"
@@ -311,14 +322,16 @@ rule "Sending Notification"
     then
     	System.out.println("EJECUTANDO -Sending Notification-");
 end
-```	
-
-Output-
+```
+y su Output:
+```
 EJECUTANDO -Adjust Product Price-
 EJECUTANDO -Sending Notification-
+```
 
-Salience es un sistema de pesos que nos permite indicar prioridades sobre ejecuciones de las reglas en caso de coincidencia.
-Si añadimos el atributo salience a las reglas vemos como podemos especificar el orden
+Salience (prominencia) es un sistema de pesos que nos permite indicar prioridades sobre las ejecuciones de las reglas en caso de coincidencia.
+Si añadimos el atributo salience a las reglas vemos como podemos especificar el orden:
+
 ```	
 rule "Adjust Product Price"
 	no-loop
@@ -336,12 +349,14 @@ rule "Sending Notification"
     then
     	System.out.println("EJECUTANDO -Sending Notification-");
 end
-```	
-Output-
+```
+y su Output:
+```
 EJECUTANDO -Sending Notification-
 EJECUTANDO -Adjust Product Price-
+```
 
-Ahora se han ejecutado ordenadamente en funcion del peso(valor) de nuestra rule dentro del engine.
+Ahora se han ejecutado ordenadamente en funcion del peso(valor) de nuestra rule dentro del engine. Los valores de salience pueden ser negativos o positivos.
 
 
 USANDO EL COMPILADOR
