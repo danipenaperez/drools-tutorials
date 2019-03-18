@@ -54,7 +54,7 @@ PREPARANDO LA EJECUCION PARA UNOS TEST EXPLICATIVOS
 
 Para que nos vayamos introduciendo en el manejo de drools, vamos a hacer unos ejemplos muy sencillos donde aprenderemos un poco a definir con unas reglas sencillas y posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como aplicaríamos drools a un proyecto un poco mas "empresarial".
 
-Este primer ejemplo es muy "bobo", al contexto de ejecucion de drools le vamos introducir el precio de un producto, este será analizado por las reglas se dispararán una serie de acciones.
+Este primer ejemplo es muy simple, al contexto de ejecucion de drools le vamos introducir el precio de un producto, este será analizado por las reglas se dispararán una serie de acciones.
 
 ## Lo primero **generar la configuracion**
 Para instanciar el motor del engine mediante Spring Boot, basta con generar nuestra clase de configuracion usando el archiconocido @Configuration y un metodo que inyecte en el contenedor un Bean KIEContainer. 
@@ -130,7 +130,7 @@ Esta primera version es muy sencilla, al introducir el producto en el engine che
 
 discountRules.drl
 ------------------
-empezamos con una version muy sencilla:
+Empezamos con una version muy sencilla:
 ```
 package myAppRules;
 
@@ -146,7 +146,7 @@ rule "Adjust Product Price"
 end
 ```
 
-Antes de ver en detalle cada parte, podemos intuir que importa unos tipos de objeto y que hay una rule que tiene una condicion y que si se cumple hace un system Out.
+Antes de ver en detalle cada parte, podemos intuir que importa unos tipos de objeto y que hay una rule que tiene una condición y que si se cumple hace un system Out.
 
 Por partes:
 * **package** : es una agrupacion lógica de reglas.*No tiene que ver con paqueteria física*. Piensalo más como un namespace, donde  grupos de  elementos tienen relacion (globas, functions y demas cosas quee veremos mas adelante). Los nombres de las rules deben ser únicos dentro de un mismo package (namespace)
@@ -159,9 +159,9 @@ Por partes:
 
 * **dialect** : el tipo de lenguage usado para las definiciones dentro de las reglas. Los 2 mas extendidos son 
 	* **"mvel"**-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion RHS.  
-	Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
-	  	java version: $person.getAddresses().get("home").setStreetName("my street");
-		mvel version: $person.addresses["home"].streetName = "my street";
+	* Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
+	  	* * java version: $person.getAddresses().get("home").setStreetName("my street");
+		* * mvel version: $person.addresses["home"].streetName = "my street";
 		Tambien nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
 	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el then.
 
