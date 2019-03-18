@@ -52,10 +52,14 @@ Podemos importar todas las dependencias desde los repositorios centrales de mave
 PREPARANDO LA EJECUCION PARA UNOS TEST EXPLICATIVOS
 ---------------------------------------------------
 
-Para que nos vayamos introduciendo en todo este mundo, vamos a hacer unos ejemplos muy sencillos donde aprenderemos un poco a manejarnos con unas reglas sencillas y posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como aplicaríamos drools a un proyecto un poco mas "empresarial".
+Para que nos vayamos introduciendo en el manejo de drools, vamos a hacer unos ejemplos muy sencillos donde aprenderemos un poco a definir con unas reglas sencillas y posteriormente intentaremos hacer un ejemplo mas "imaginativo" para que veamos como aplicaríamos drools a un proyecto un poco mas "empresarial".
+
+Este primer ejemplo es muy "bobo", al contexto de ejecucion de drools le vamos introducir el precio de un producto, este será analizado por las reglas se dispararán una serie de acciones.
 
 ## Lo primero **generar la configuracion**
-Para instanciar el motor del engine mediante Spring Boot basta con generar nuestra clase de configuracion usando el archiconocido @Configuration y un metodo que inyecte en el contenedor un Bean KIEContainer. Este KIEContainer encapsula todos los elementos que comenteé al principio y nos proporcionara un API sencillo para interactuar con todos ellos. En este caso lo usaremos para crear la KnowledgeSession cada vez que requiramos una ejecución (si, cada ejecucion tiene su contexto por lo tanto su runtime):
+Para instanciar el motor del engine mediante Spring Boot, basta con generar nuestra clase de configuracion usando el archiconocido @Configuration y un metodo que inyecte en el contenedor un Bean KIEContainer. 
+Este KIEContainer encapsula todos los elementos que comenté al principio (KnowledgeBase, configuracion Working Memory, etc..) y nos proporcionara un API sencillo para interactuar con todos ellos. 
+En este caso lo usaremos para crear la KnowledgeSession cada vez que requiramos una ejecución (cada ejecucion tiene su contexto por lo tanto su runtime, que es configurable en modo stateless o statefull):
 ```
 @Configuration
 public class BPMConfigurations {
@@ -78,10 +82,10 @@ public class BPMConfigurations {
 }
 ```
 Como podemos ver KIE nos abstrae de configuracion de Modules BPM y demás configuracion subyacente. Con este Bean en el contexto ya podemos empezar a trastear.
-Le especificamos que carge 1 ficheros de reglas que se encuentran en el classPath (src/main/resources/rules/discountRules.drl) y ya el KIEContainer hace todo por nosotros.
+Le especificamos que carge 1 fichero de reglas que se encuentran en el classPath (src/main/resources/rules/discountRules.drl) y ya el KIEContainer hace todo por nosotros.
 
 
-Ahora generatmos un POJO para actuar como Fact (ProductPrice.java) muy sencillo (he usado lombok framework para excluir codigo declarativo innecesario): 
+Ahora generamos un POJO para actuar como Fact (ProductPrice.java) muy sencillo (he usado lombok framework para excluir codigo declarativo innecesario): 
 ```
 @Getter @Setter @NoArgsConstructor @ToString
 public class ProductPrice {
@@ -118,10 +122,11 @@ public class DroolsDemoApplicationTests {
 	}
 }
 ```
-Vemos que instanciamos un precio de producto con basePrice = 5. Luego se lo pasamos al service, que ejecuta la caja negra del motor de reglas y fin.
-con esto es mas que suficiente para hacer nuestras pruebas y juguetear un poco.
+Vemos que instanciamos un precio de producto con basePrice = 5. Luego se lo pasamos al service y este ejecuta "la caja negra" del motor de reglas. 
+Esta configuracion y ejemplo sencillo es más que suficiente para hacer nuestras pruebas y juguetear un poco.
 
-Vamos a ver el contenido de nuestra definicion de reglas del archivo discountRules.drl
+Vamos a ver el contenido de nuestra definicion de reglas del archivo discountRules.drl. 
+Esta primera version es muy sencilla, al introducir el producto en el engine chequeará si el precio del producto es mayor que 2 y si es asi hara un print por consola.
 
 discountRules.drl
 ------------------
@@ -142,21 +147,23 @@ end
 ```
 
 Antes de ver en detalle cada parte, podemos intuir que importa unos tipos de objeto y que hay una rule que tiene una condicion y que si se cumple hace un system Out.
+
 Por partes:
-*package* : es una agrupacion logica de reglas.No tiene que ver con paqueteria física. Piensalo mas como un namespace donde los globals y scopes de grupos de  elementos tienen relacion (globas, functions y demas cosas quee veremos mas adelante). Los nombres de las rules deben ser unicos dentro de un mismo package (namespace)
+* **package** : es una agrupacion lógica de reglas.*No tiene que ver con paqueteria física*. Piensalo más como un namespace, donde  grupos de  elementos tienen relacion (globas, functions y demas cosas quee veremos mas adelante). Los nombres de las rules deben ser únicos dentro de un mismo package (namespace)
 
-*import* : importamos definiciones de clasess que necesitará drools en la compilacion de las reglas y su ejecucion. Por defecto indicar que drools importa siempre el paquete java.lang.* ,por lo que podremos usar todas las clases del paquete en nuestras definiciones de reglas .
+* **import** : importamos definiciones de clases que necesitará drools en la compilacion de las reglas y su ejecución. Por defecto indicar que drools importa siempre el paquete java.lang.* ,por lo que podremos usar todas las clases del paquete en nuestras definiciones de reglas.
 
-*rule* : es el bloque de codigo que indica inicio y fin de una regla (rule): Como comenté al principio las reglas solo se componen de 2 partes fundamentales, 
-	when (RHS - Right Hand Side): donde se definen los criterios que la dispararan. 
-	then (LHS - Left Hand Side): donde se definen las acciones.
+* **rule** : es el bloque de código que indica inicio y fín de una regla (rule): Como comenté al principio las reglas se componen de 2 partes fundamentales, 
+	* when (RHS - Right Hand Side): donde se definen los criterios que la dispararan. 
+	* then (LHS - Left Hand Side): donde se definen las acciones.
 
-*dialect* : el tipo de lenguage usado para las definiciones dentro de las reglas. Los 2 mas extendidos son 
-	"mvel"-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion RHS.  Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
+* **dialect** : el tipo de lenguage usado para las definiciones dentro de las reglas. Los 2 mas extendidos son 
+	* **"mvel"**-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion RHS.  
+	Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
 	  	java version: $person.getAddresses().get("home").setStreetName("my street");
 		mvel version: $person.addresses["home"].streetName = "my street";
 		Tambien nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
-	"java"-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el then.
+	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el then.
 
 
 
