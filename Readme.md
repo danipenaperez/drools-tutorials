@@ -214,7 +214,7 @@ Existe una evaluacion en modo manual que evalua (**eval({true|false})** a una ex
 	then
 ``` 
 en el segundo eval, dejo ver que Drools como compilador tambien nos permite referenciar a metodos staticos de nuestro codigo o definir funciones dentro del mismo fichero .drl que como ya comente estaran disponibles en todo el package (namespace) (dentro de unas lineas lo vamos a ver..)
-
+``` 
 
 modify (Aplicando ordenes en el then RHS )
 -------------------------------------
