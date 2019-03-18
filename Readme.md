@@ -194,10 +194,10 @@ Para el ejemplo anterior podríamos condiciones mas complejas:
 
 Ejemplos:
 ```
-$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
-etc...
-```		
-En vez de anidarlos tambien podemos usar la clausula por defecto and y convertir la condicion anterior en 
+	$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
+```	
+
+En vez de anidarlos tambien podemos usar la claúsula por defecto **and** y convertir la condicion anterior en 
 
 ```
 	when
@@ -205,10 +205,11 @@ En vez de anidarlos tambien podemos usar la clausula por defecto and y convertir
 		$p : ProductPrice((basePrice % 5) == 0 ) //se deben cumplir todas
 	then
 ``` 
-Existe una evaluacion en modo manual que evalua a una expresion booleana la ejecucion de una regla:
+Existe una evaluacion en modo manual que evalua (**eval({true|false})** a una expresion booleana la ejecución de una regla. Si quisiera
 ```
 	when
 		eval(true)
+		eval ($p.isZeroPrice()) //por ejemplo link a un metodo booleano interno de la clase
 		eval(callMyCustomFunctionThatReturnsABoolean)
 	then
 ``` 
