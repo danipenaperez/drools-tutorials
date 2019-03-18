@@ -158,24 +158,24 @@ Por partes:
 	* then (LHS - Left Hand Side): donde se definen las acciones.
 
 * **dialect** : el tipo de lenguage usado para las definiciones dentro de las reglas. Los 2 mas extendidos son 
-	* **"mvel"**-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion RHS.  
-	* Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de "traduccion":
+	* **"mvel"**-> (MVFLEX Expression Language): Es un lenguage declarativo mas sencillo y su unica finalidad es hacer el codigo mas legible. Ofrece sintaxis que casa con la nomenclatura java standar de forma que abstrae de getter y setter. Su uso es casi extendido a la seccion *RHS*.  
+	* Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de equivalencia de código:
 	  	* java version: $person.getAddresses().get("home").setStreetName("my street");
 		* mvel version: $person.addresses["home"].streetName = "my street";
-		Tambien nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
-	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el then.
+		Mvel también nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
+	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el *then*.
 
 
 
 Ejecutando
 ----------
 Si ejecutamos el test, estos son los pasos fundamentales:
-1 .Entra el fact a evaluar con baseprice = 5
+* 1. Entra el fact a evaluar con baseprice = 5
 		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
 		priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
-2. El motor de drools comprueba el when y como se cumple, pues asigna a la variable local $p el objeto ProductPrice. Mvel nos proporciona el acceso al getBasePrice sin necesidad de declararlo.
+* 2. El motor de drools comprueba el when y como se cumple, pues asigna a la variable local $p el objeto ProductPrice. Mvel nos proporciona el acceso al getBasePrice sin necesidad de declararlo.
 		$p : ProductPrice(basePrice > 2 )  // Object({conditions}) format (lo vamos a ver ahora mismito..)
-3.Como se cumple ejecuta el then, que usa en este caso sintaxis Java y tiene acceso a la $p que sera de tipo ProductPrice
+* 3.Como se cumple ejecuta el then, que usa en este caso sintaxis Java y tiene acceso a la $p que sera de tipo ProductPrice
 
 
 conditions (Revisando condiciones en LHS )
