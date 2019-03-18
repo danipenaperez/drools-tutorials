@@ -188,12 +188,17 @@ Conditions (Revisando condiciones en LHS - *Left Hand Side*)
 ----------
 Como hemos visto en el paso 2 anterior, se cumple la condicion de que basePrice > 2 (ya que era 5 cuando entro al contexto de ejecucion). 
 
-Para el ejemplo anterior podríamos condiciones mas complejas ( > , < , >=, =<, || , && , == , % , ^, contains, not contains, memberof, not memberof, matches (regExp), not matches (regExp), starswith , etc...) :
+Para el ejemplo anterior podríamos condiciones mas complejas:
+
+( > , < , >=, =<, || , && , == , % , ^, contains, not contains, memberof, not memberof, matches (regExp), not matches (regExp), starswith , etc...) 
+
+Ejemplos:
 ```
-	$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
-	etc...
-``` 		
-en vez de anidarlos tambien podemos usar la clausula por defecto and y convertir la condicion anterior en 
+$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
+etc...
+```		
+En vez de anidarlos tambien podemos usar la clausula por defecto and y convertir la condicion anterior en 
+
 ```
 	when
 		$p : ProductPrice((basePrice / 5) == 1))
