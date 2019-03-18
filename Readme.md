@@ -519,7 +519,7 @@ En la siguiente seccion veremos como incluir varios ficheros , pero antes vamos 
 
 Hemos visto ya que podemos :
 * Definir nuestras funciones (function)
-* Definir nuestros Typos (classes)
+* Definir nuestros tipos (classes)
 * Importar tipos para usarlos en nuestros .drl (import pck.subpck1.subpck2.className )
 
 Y ahora vamos a ver como meter objetos ya instanciados y disponibles en la maquina virtual al contexto de ejecución de Drools.
@@ -541,8 +541,11 @@ public class PushSubService {
 	}
 }
 ```
-Ahora nos interesa tener este objeto dentro del contexto de ejecucion de las rules de drools, asi que lo inyectamos como global cuando solicitamos la ejecucion, 
-La clase PriceCalculatorService.java (si recuerdas :-D ) llevamos un buen rato sin tocarla y en mi opinion esto es lo bueno de drools, que solo montamos los "hierros" en java y lo delegamos todo en el motor de reglas. La modificamos añadiendo "globals" a traves de la KieSession, nos quedara asi:
+Ahora nos interesa tener este objeto dentro del contexto de ejecucion de las rules de drools, asi que lo inyectamos como global cuando solicitamos la ejecucion.
+
+La clase PriceCalculatorService.java (la del principio, acuerdate!) llevamos un buen rato sin tocarla y en mi opinion esto es lo bueno de drools, que solo montamos los "hierros" en java y lo delegamos todo en el motor de reglas que debería actuar como una caja negra para nosotros. 
+
+Modificamos el método para añadir un "globals" al conexto de ejecution.Para ello usamosa el API que nos proporciona la KieSession:
 ```
 	@Autowired
 	private PushSubService pushSubService;
@@ -554,8 +557,7 @@ La clase PriceCalculatorService.java (si recuerdas :-D ) llevamos un buen rato s
         kieSession.dispose();
     }
 ```
-He inyectado el servicio a traves del global name "publishTool" y lo referencio dentro del .drl en la parte de definiciones que estabamos usando para
-las functions y los tipos que vimos anteriormente.
+He inyectado el servicio a traves del global name "publishTool" y lo referencio dentro del .drl en la parte de definiciones que estabamos usando para las functions y los tipos que vimos anteriormente.
 ```
 global com.dppware.droolsDemo.services.PushSubService publishTool;
 ```
@@ -564,7 +566,9 @@ y lo uso en alguna RHS (then) para comprobar que podemos usarlo:
 publishTool.publishNewProductCreated(pro); 
 ```
 
-El archivo .drl ahora tiene esta forma, vemos que metemos la ultima ejecucion en la que usamos el global para publicar.:```
+El archivo .drl ahora tiene esta forma, vemos que metemos la ultima linea de ejecucion, en la que usamos el global para publicar:
+
+```
 import com.dppware.droolsDemo.bean.*;
 
 //Imported specified functions
@@ -607,33 +611,33 @@ rule "Adjust Product Price"
 end
 ```
 Output:
-
+```
 PrettyTraces -> ***el precio ajustado es 0***
 PrettyTraces -> ***3***
 PrettyTraces -> ***Product( code=3321, name=Leche, description=Rica en Calcio )***
 Publishing newProduct Topic , content [{"code":3321,"name":"Leche","description":"Rica en Calcio"}]
-
-
+```
 
 ORGANIZANDO EL CODIGO
 ---------------------
 Hemos visto ya que tenemos un batiburrillo de declaraciones, imports, functions, declares, tipos, globals, rules...
-y todo en el mismo archivo...bufff es una casa de locos. Vamos a estructurarlo un poco, ya no solo por tenerlo mas legible, si no
-porque si sabemos dividir bien, podemos generar "ecosistemas" solamente juntando piezas (.drl) y lograr asi comportamientos portables
-y flexibes.
+y todo en el mismo archivo...bufff es una casa de locos. 
+
+Vamos a estructurarlo un poco, ya no solo por tenerlo mas legible, si no porque si sabemos dividir bien, podemos generar "ecosistemas" solamente juntando piezas (.drl) y lograr asi comportamientos portables y flexibes.
+
 La idea de dividir en archivos, separando las reglas en un .drl, las definiciones de tipos en otro, las funciones en otro, etc.. 
 nos va a generar una dependencia entre imports de ficheros , todavia no hay un sistema de dependencias entre 
 ficheros de reglas y lo deberiamos de gestionar nosotros a mano :-( . 
-Por otro lado estructurar un poco el .drl tambien creo que es una buena practica y  nos ayuda a mantener la atomicidad y coherencia del contexto
-de las reglas. 
-Yo voy a dividir en distintos archivos, para que se vea y entienda el concepto de package que comente al princpio y que no he "implementado/explicado" todavía por darle 
-continuidad a este tutorial.
-Tambien, habrá de los que piensen que meter los "global" crean una dependencia de ejecucion con elementos externos , totalmente de acuerdo. Tambien podríamos
-optar por importar tipos del classpath y hacerlo todo en drools, pero con la facilidad que nos da Spring para un monton de cosas pues eso...para gustos los colores.
 
-Como hemos visto, importar los archivos .drl en nuestro ecosistema, se reduce a importar un array de bytes, asi que podríamos optar por implementar un repositorio
-central de ficheros .drl , versionable y que a parte nos provea de informacion de dependencias de archivos .drl... no sé, deja volar tu imaginación.. 
+Por otro lado estructurar un poco el .drl tambien creo que es una buena practica y  nos ayuda a mantener la atomicidad y coherencia del contexto de las reglas.
 
+Yo voy a dividir en distintos archivos, para que se vea y entienda el concepto de package que comente al princpio y que no he "implementado/explicado" todavía por darle continuidad a este tutorial.
+
+Tambien, habrá de los que piensen que meter los "global" crean una dependencia de ejecucion con elementos externos , totalmente de acuerdo. Tambien podríamos optar por importar tipos del classpath y hacerlo todo en drools, pero con la facilidad que nos da Spring para un monton de cosas pues eso...para gustos los colores.
+
+Como hemos visto, importar los archivos .drl en nuestro ecosistema, se reduce a importar un array de bytes, asi que podríamos optar por implementar un repositorio  central de ficheros .drl , versionable y que a parte nos provea de informacion de dependencias de archivos .drl... no sé, deja volar tu imaginación..quizas un springcloudConfig /zookeeper, etc.. 
+
+## Sacando la tijera
 Generamos 4 archivos separando los elementos, pero ahora si que es obligatorio que **todos incluyan la definicion del mismo package** (que como comente al principio, solo es un namespace)
 
 #product_beans.drl
@@ -648,7 +652,7 @@ declare Product
 end
 ```
 
-#product_dependencies.drl
+# product_dependencies.drl
 Solo contiene informacion acerca de agentes externos (globals requeridos)
 ```
 package com.demo.product;
@@ -659,7 +663,7 @@ global com.dppware.droolsDemo.services.PushSubService publishTool;
 dialect  "mvel"
 ```
 
-#product_functions.drl
+# product_functions.drl
 Solo contiene informacion acerca de Tipos (objetos) necesarios para tareas internas.
 ```
 package com.demo.product;
@@ -676,7 +680,7 @@ function Integer calculateIncrement(Integer value, int quantity) {
 dialect  "mvel"
 ```
  
-#product_rules.drl
+# product_rules.drl
 Solo contiene informacion acerca las rules de negocio.
 ```
 package com.demo.product;
@@ -709,14 +713,15 @@ end
 ```
 
 Y para cargarlos en el engine, los añadimos en el @Configuration (BPMConfigurations.java)
+
 ```
 @Configuration
 public class BPMConfigurations {
 	private static final String[] drlFiles = { 	"rules/product_beans.drl", 
-												"rules/product_dependencies.drl",
-												"rules/product_functions.drl",
-												"rules/product_rules.drl"
-											};
+							"rules/product_dependencies.drl",
+							"rules/product_functions.drl",
+							"rules/product_rules.drl"
+						};
 	@Bean
 	public KieContainer kieContainer() {
 		KieServices kieServices = KieServices.Factory.get(); 
@@ -734,19 +739,18 @@ public class BPMConfigurations {
 }
 ```
 
-volvemos a ejecutar el test y vemos que todo es exactamente igual, yeah!  Pero vemos que ahora tenemos unos warning que nos indican que el 
-nombre de package no se corresponde con el directorio físico y eso no esta mal. Como comenté al principio, **el concepto de package es de "scope"**, pero 
-si que tiene razón en que deberiamos mantener un poco coherencia física en lo que estamos definiendo.  
+Volvemos a ejecutar el test y vemos que todo es exactamente igual, yeah!  Pero vemos que ahora tenemos unos warning que nos indican que el nombre de package no se corresponde con el directorio físico y eso no esta mal. Como comenté al principio, **el concepto de package es de "scope"**, pero si que tiene razón en que deberiamos mantener un poco coherencia física en lo que estamos definiendo.  
+
 ```
 File 'src/main/resources/rules' is in folder 'rules' but declares package 'com.demo.product'. It is advised to have a correspondance between package and folder names
 ```
 
 PACKAGES
 --------------------------
-Ten en cuenta que al trabajar con packages, 2 rules no pueden tener el mismo nombre, ni 2 funciones tampoco. Además el compilador es coherente y da un error al arrancar
-si las definiciones dan conflicto o hay fallos, para evitar posibles "sobreescrituras".
+Ten en cuenta que al trabajar con packages, 2 rules no pueden tener el mismo nombre, ni 2 funciones tampoco. Además el compilador es coherente y da un error al arrancar si las definiciones dan conflicto o hay fallos, para evitar posibles "sobreescrituras".
 
-#Inspeccionando el contexto de Drools desde fuera
+# Inspeccionando el contexto de Drools desde fuera
+
 Imaginemos que tenemos un motor de drools con todas las reglas y procesos bien configurados y nuestra unica finalidad es ponerle una capa por fuera a esa cebolla
 y exponer esas funcionadlidad, por ejemplo para que sean usadas desde un API Rest.
 
@@ -773,7 +777,7 @@ Bueno, hemos visto:
 -Como importar y definir nuevos tipos dentro del contexto Drools
 -Como inyectar objetos del contexto de la JVM como globals para que sean usados.
 
-**Intentar explicar el uso de drools y todas sus variantes en unos simples tutoriales es una osadía. Es pero que este pequeño tutorial te haya ayudado no solo a manejar un poco drools, si no tambien a que pienses como lo puedes llegar a usar en un desarrollo o futuros proyectos.**
+> **Intentar explicar el uso de drools y todas sus variantes en unos simples tutoriales es una osadía. Es pero que este pequeño tutorial te haya ayudado no solo a manejar un poco drools, si no tambien a que pienses como lo puedes llegar a usar en un desarrollo o futuros proyectos.**
 
 Toda la documentacion y el material bélico de de la verison 5 de Drools, la tienes aqui :
 https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/
@@ -781,7 +785,23 @@ https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/
 Ls reglas de drools las podemos encapsular en .jar y manejar sus dependencias con Maven
 
 Usando el API
- kieSession.addEventListener(new RuleRuntimeEventListener() {
+----------------
+El KIEContainer nos provee un API muy rico para analizar, crear contextos, leer definiciones de objetos y un largo etc...
+```
+kieContainer.getKieBase().getKiePackage("com.demo.product").getFactTypes(); 
+    	kieContainer.getKieBase().getKiePackage("com.demo.product").getFunctionNames();
+    	kieContainer.getKieBase().getKiePackage("com.demo.product").getGlobalVariables();
+    	kieContainer.getKieBase().getKiePackage("com.demo.product").getRules();
+    	kieContainer.getKieSessionConfiguration();
+    	kieContainer.newKieSession();
+    	kieContainer.newStatelessKieSession(conf);
+    	kieContainer.newRuleUnitExecutor();//informacion acerca del threadpool
+    	y un largo etc..getClass().
+```
+Y muchos listeners para observar que esta pasando:
+```
+kieContainer.newKieSession().addEventListener(ProcessEventListner );;
+kieSession.addEventListener(new RuleRuntimeEventListener() {
 			
 			@Override
 			public void objectUpdated(ObjectUpdatedEvent event) {
@@ -801,8 +821,10 @@ Usando el API
 				
 			}
 		});
-		
-A veces nos interesa por performance crear una session que no contenga todas las reglas, porque si te paras a pensarlo, se evaluan todas las reglas cada vez que es disparada la ejecucion y en muchos casos eso puede no tener sentido con la consecuente degradacion de rendimiento.
+etc..
+```
+
+> A veces nos interesa por performance crear una session que no contenga todas las reglas, porque si te paras a pensarlo, se evaluan todas las reglas cada vez que es disparada la ejecucion y en muchos casos eso puede no tener sentido con la consecuente degradacion de rendimiento. **El tunning de Drools deberias manejarlo desde esta API de KIEContainer.**
 
 
 
