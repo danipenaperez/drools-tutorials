@@ -170,17 +170,24 @@ Por partes:
 Ejecutando
 ----------
 Si ejecutamos el test, estos son los pasos fundamentales:
-* 1. Entra el fact a evaluar con baseprice = 5
-		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
-		priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
-* 2. El motor de drools comprueba el when y como se cumple, pues asigna a la variable local $p el objeto ProductPrice. Mvel nos proporciona el acceso al getBasePrice sin necesidad de declararlo.
-		$p : ProductPrice(basePrice > 2 )  // Object({conditions}) format (lo vamos a ver ahora mismito..)
-* 3.Como se cumple ejecuta el then, que usa en este caso sintaxis Java y tiene acceso a la $p que sera de tipo ProductPrice
+* 1. Entra el fact a evaluar con baseprice = 5  desde nuestro código Java
+```
+ProductPrice productPrice = new ProductPrice(5);//Create the Fact
+priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
+```
+* 2. El motor de drools comprueba el when y como en este caso se cumple, pues asigna a la variable local $p el objeto ProductPrice. Mvel nos proporciona el acceso al getBasePrice sin necesidad de declararlo.
+```
+$p : ProductPrice(basePrice > 2 )  // Object({conditions})  (las condiciones disponibles las vamos a ver mas adelante..)
+```
+* 3. Como se cumple ejecuta el then, haciendo el print de la variable seteada $p.
+```
+System.out.println("EJECUTANDO -Adjust Product Price- para el producto [" + $p + "]");
+```
 
-
-conditions (Revisando condiciones en LHS )
+Conditions (Revisando condiciones en LHS - *Left Hand Side*)
 ----------
 Como hemos visto en el paso 2 anterior, se cumple la condicion de que basePrice > 2 (ya que era 5 cuando entro al contexto de ejecucion). 
+
 Para el ejemplo anterior podríamos condiciones mas complejas ( > , < , >=, =<, || , && , == , % , ^, contains, not contains, memberof, not memberof, matches (regExp), not matches (regExp), starswith , etc...) :
 ```
 	$p : ProductPrice(((basePrice / 5) == 1) && ((basePrice % 5) == 0 ))
