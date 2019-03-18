@@ -261,7 +261,7 @@ end
 
 Vamos a comentar 2 de ellas (las que me parecen mas genericas y obligatorias de conocer), si quieres profundizar tienes la referencia oficial [aquí](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3761)
 
-#No-loop
+# No-loop
 Imaginemos que metemos un Fact (ProductPrice.java) que su basePrice = 5 , cuando se cumple la condicion solo le restamos 1. **Drools por defecto volvera a evaluar la LHS** y verá que sigue cumpliendose así que la regla será disparada varias veces, hasta que no se cumpla la condicion.
 ```
 rule "Adjust Product Price"
@@ -303,10 +303,10 @@ el precio ajustado es 4
 
 Solo se ha ejecutado 1 vez ya que solo se ha evaluado 1 vez.
 
-#Salience
-Por defecto Drools ordena las reglas de ejecución en el orden que se las va encontrando al parsear los fichero de reglas(.drl), de modo que en tiempo de ejecución se ejecutaran las reglas que su RHS se cumpla y por el orden en el que se encontrarón.
+# Salience
+Por defecto Drools ordena las reglas de ejecución en el orden que se las va encontrando al parsear los fichero de reglas(.drl), de modo que en tiempo de ejecución se ejecutaran las reglas que su RHS se cumpla y por el orden en el que se almacenaron en el motor.
 
-Imagina esta definicion de drl en la que hemos introducido 2 reglas: 
+Imagina esta definicion de drl en la que hemos introducido 2 reglas (ya añadimos el no-loop tambien): 
 ```	
 rule "Adjust Product Price"
 	no-loop
@@ -356,7 +356,7 @@ EJECUTANDO -Sending Notification-
 EJECUTANDO -Adjust Product Price-
 ```
 
-Ahora se han ejecutado ordenadamente en funcion del peso(valor) de nuestra rule dentro del engine. Los valores de salience pueden ser negativos o positivos.
+Ahora se han ejecutado ordenadamente en funcion del peso(valor) de nuestra rule dentro del engine. Los valores de salience pueden ser negativos si queremos que nuestra regla tenga prioridad mínima y ser lanzada en última instancia.
 
 
 USANDO EL COMPILADOR
@@ -364,7 +364,10 @@ USANDO EL COMPILADOR
 Como comenté anteriormente, podemos importar funciones, crear nuevos tipos,  funciones dentro del drl, etc.. 
 
 # functions - > Importando metodos de utilidades:
-Pongamos que queremos tener un modo de loggin customizado en nuestra aplicacion (o lo que sea que haga el metodo, quizas porque no nos apañamos metiendo la logica en el drl) y que queremos usarlo dentro de nuestra regla.
+Pongamos que tenemos una libreria de utilidades, parseos o que realiza cualquier otro tipo de funcionalidad atómica y que nos vendría fenomenal usarlo dentro de nuestras reglas.
+
+Desde Drools podemos importar ese metodo para usarlo dentro de las rules (ten encuenta que ese metodo se expondrá dentro del namespace).
+
 Pues es tan facil como definir el metodo con acceso static en nuestra clase java y luego importarlo en nuestro fichero .drl (recuerda que estara disponible para todo el package):
 ```	
 public class Utils {
