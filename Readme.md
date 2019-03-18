@@ -239,11 +239,11 @@ rule "Adjust Product Price"
 end
 ```
 Sencillo verdad? abrimos un bloque modify con el scope de la variable definida (ya que se cumplio el LHS- *Left Hand Side*) y en el contexto encontramos la funcion setBasePrice del objeto ProductPrice.
+
 Si haces esta modificacion en codigo y ejecutas el Test veras este output:
 ```
 el precio ajustado es 0
 ```
-
 
 Rules Attributes (orden de ejecución de las reglas, bucles infinitos, etc...)
 -----------------
@@ -356,7 +356,7 @@ EJECUTANDO -Sending Notification-
 EJECUTANDO -Adjust Product Price-
 ```
 
-Ahora se han ejecutado ordenadamente en funcion del peso(valor) de nuestra rule dentro del engine. Los valores de salience pueden ser negativos si queremos que nuestra regla tenga prioridad mínima y ser lanzada en última instancia.
+Ahora se han ejecutado ordenadamente en función del peso(valor) de nuestra rule dentro del engine. Los valores de salience pueden ser negativos si queremos que nuestra regla tenga prioridad mínima y ser lanzada en última instancia.
 
 
 USANDO EL COMPILADOR
@@ -369,13 +369,16 @@ Pongamos que tenemos una libreria de utilidades, parseos o que realiza cualquier
 Desde Drools podemos importar ese metodo para usarlo dentro de las rules (ten encuenta que ese metodo se expondrá dentro del namespace).
 
 Pues es tan facil como definir el metodo con acceso static en nuestra clase java y luego importarlo en nuestro fichero .drl (recuerda que estara disponible para todo el package):
+
+La Clase Java:
 ```	
 public class Utils {
 	public static void prettyTraces(Object message) {
 		System.out.println("PrettyTraces -> ***"+message+"***");
 	}
 }
-```	
+```
+
 Para usarla en nuestra rule basta con importarlo de manera declarativa completa. Basandonos en las rules que estabamos usando nos quedaria asi:
 ```	
 import com.dppware.droolsDemo.bean.*;
@@ -394,14 +397,17 @@ rule "Adjust Product Price"
 	    }
 	    prettyTraces("el precio ajustado es " + $p.basePrice);
 end
-```	
-
+```
 Output:
+```
 PrettyTraces -> ***el precio ajustado es 0***
+```
 
-Tambien puedes observar que he metido // para los comentarios
+> Tambien puedes observar que he metido // para los comentarios
+
 # functions - > Creandolas en drl:
-Definir funciones dentro del .drl es muy sencillo. Pero en su declaracion de tipo usamos la palabra reservada funcion, vamos a incrementar el codigo metiendo la definicion tambien:
+Definir funciones dentro del .drl es muy sencillo. Pero en su declaracion de tipo usamos la palabra reservada **function**, vamos a incrementar el codigo metiendo la definicion tambien:
+
 ```
 import com.dppware.droolsDemo.bean.*;
 
@@ -429,31 +435,34 @@ rule "Adjust Product Price"
 end
 ```
 Output:
+```
 PrettyTraces -> ***el precio ajustado es 0***
 PrettyTraces -> ***3***
+```
+
+Vemos como hacemos la llamada al metodo que acabamos de crear y ademas al prettyTraces que habiamos añadido anteriormente.
 
 
-vemos como hacemos la llamada al metodo recien definido y ademas al prettyTraces que añadimos anteriormente.
+# Nuevos Tipos (TYPE - class ) 
+Es posible definir nuestras nuevas classes dentro del ecosistema de manera declarativa y sin compilacion previa, ya que el compilador leera la definicion e introducira en el classloader las definiciones para la instanciación.
 
-
-#Nuevos Tipos (TYPE - class ) 
-Es posible definir nuestras nuevas classes dentro del ecosistema de manera declarativa y sin compilacion previa, ya que el compilador leera la definicion
-e introducira en el classloader las definiciones para la instanciacion. 
 La declaracion de nuevos tipos se hace en la misma seccion de declaracion de las funciones, usando la palabra reservada "declare".
+
 Por defecto con el uso de "mvel" los getters/setters/toString/equals/hashCode seran añadidos a la definicion.
-El compilador creará 2 constructores por defecto (uno vacio y otro con todos los campos como argumentos).
-Si queremos customizar el constructor para usar solo determinados argumentos debemos usar la anotación @key, puedes mas ejemplos en la documentacion oficial aqui
-https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3418 ).
+
+> El compilador creará 2 constructores por defecto (uno vacio y otro con todos los campos como argumentos).
+
+Si queremos customizar el constructor para usar solo determinados argumentos debemos usar la anotación @key, puedes mas ejemplos en la documentacion oficial [aqui](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3418).
+
 ```
 declare Product
    code : int
    name : String
    description : String
-ends```
-Y para su instanciacion se puede hacer de esta manera usando sintaxis java (recuerda que esta sintaxis solo es aceptada en RHS), y si lo piensas bien, 
-solo tiene sentido instanciar objetos ahi, ya que el then debe ser usado unicamente para el analisis de los Facts.
+ends
+```
+Y para su instanciación se puede hacer de esta manera usando sintaxis java (recuerda que esta sintaxis solo es aceptada en RHS):
 
-Ahora el .drl tendra este aspecto:
 ```
 import com.dppware.droolsDemo.bean.*;
 
@@ -495,26 +504,29 @@ end
 
 Y el Output al ejecutarlo es 
 
+```
 PrettyTraces -> ***el precio ajustado es 0***
 PrettyTraces -> ***3***
 PrettyTraces -> ***Product( code=3321, name=Leche, description=Rica en Calcio )***
 
-Como podemos observar estamos "uglificando" el codigo en este archivo .drl. Entonces empieza a tener sentido el concepto de "package" , porque podemos
-tener varios ficheros .drl (uno con definicione de tipos, otro con funciones y otro con las rules...) y al compartir package (namespace) estaran disponibles.
+```
+
+> Como podemos observar estamos "uglificando" el codigo en este archivo .drl ya que se nos empieza a ir de las manos. Entonces empieza a tener sentido el concepto de "package" , porque podemos tener varios ficheros .drl (uno con definicione de tipos, otro con funciones y otro con las rules...) y al compartir package (namespace) estaran disponibles.
+
 En la siguiente seccion veremos como incluir varios ficheros , pero antes vamos a ver los "Global" que va muy relacionado con lo que acabamos de ver.
 
-#Importar objects desde el contexto java (globals)
+# Importar objects desde el contexto java (globals)
+
 Hemos visto ya que podemos :
--Definir nuestras funciones (function)
--Definir nuestros Typos (classes)
--importar tipos para usarlos en nuestros .drl (import pck.subpck1.subpck2.className )
+* Definir nuestras funciones (function)
+* Definir nuestros Typos (classes)
+* Importar tipos para usarlos en nuestros .drl (import pck.subpck1.subpck2.className )
 
-Y ahora vamos a ver como meter objetos ya instanciados y disponibles en la maquina virtual al contexto de ejecucion de Drools.
-Puede ser muy util injectar un bean de servicio de nuestro contexto de Spring para que sea utilizado en las LHS para realizar operaciones
-complejas.
+Y ahora vamos a ver como meter objetos ya instanciados y disponibles en la maquina virtual al contexto de ejecución de Drools.
 
-A este tipo de inyecciones se las denomina **globals**. Para estas si que necesitamos editar nuestro test Java ya que se lo pasamos como 
-argumento en la construccion de la session de ejecucion.
+Puede ser muy util injectar un bean de servicio de nuestro contexto de Spring para que sea utilizado en las LHS para realizar operaciones complejas (piensa en insertar un DAO o cualquier tipo de Servicio).
+
+A este tipo de inyecciones se las denomina **globals**. Para estas si que necesitamos editar nuestro test Java ya que se lo pasamos como argumento en la construccion de la session de ejecución.
 
 Definimos un @Service Java y le metemos un metodo muy basico que simule que publica en un topic, es solo para que te hagas una idea:
 ```
