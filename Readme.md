@@ -118,7 +118,8 @@ public class DroolsDemoApplicationTests {
 	@Test
 	public void executeCalculations() {
 		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
-		priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
+		priceCalculatorService.executeRules(productPrice);//Call service and internal 
+								   //BlackBox rules engine
 	}
 }
 ```
@@ -176,12 +177,14 @@ Si ejecutamos el test, estos son los pasos fundamentales:
 * 1. Entra el fact a evaluar con baseprice = 5  desde nuestro código Java
 ```
 ProductPrice productPrice = new ProductPrice(5);//Create the Fact
-priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
+priceCalculatorService.executeRules(productPrice);//Call service and internal 
+                                                   // BlackBox rules engine
 ```
 * 2. El motor de drools comprueba el when y como en este caso se cumple, pues asigna a la variable local $p el objeto ProductPrice. Mvel nos proporciona el acceso al getBasePrice sin necesidad de declararlo.
 ```
-$p : ProductPrice(basePrice > 2 )  // Object({conditions})  (las condiciones disponibles las vamos a ver mas adelante..)
+$p : ProductPrice(basePrice > 2 )  // Object({conditions}) 
 ```
+*las condiciones disponibles las vamos a ver mas adelante.. Fact({conditions})*
 * 3. Como se cumple ejecuta el then, haciendo el print de la variable seteada $p.
 ```
 System.out.println("EJECUTANDO -Adjust Product Price- para el producto [" + $p + "]");
@@ -193,7 +196,7 @@ Como hemos visto en el paso 2 anterior, se cumple la condicion de que basePrice 
 
 Para el ejemplo anterior podríamos condiciones mas complejas:
 
-( > , < , >=, =<, || , && , == , % , ^, contains, not contains, memberof, not memberof, matches (regExp), not matches (regExp), starswith , etc...) 
+> ( > , < , >=, =<, || , && , == , % , ^, contains, not contains, memberof, not memberof, matches (regExp), not matches (regExp), starswith , etc...) 
 
 Ejemplos:
 ```
@@ -208,7 +211,7 @@ En vez de anidarlos tambien podemos usar la claúsula por defecto **and** y conv
 		$p : ProductPrice((basePrice % 5) == 0 ) //se deben cumplir todas
 	then
 ``` 
-Existe una evaluacion en modo manual que evalua (**eval({true|false})** a una expresion booleana la ejecución de una regla. Si quisiera
+Existe una evaluación en modo manual que evalua (**eval({true|false})** a una expresión booleana la ejecución de una regla.
 ```
 	when
 		eval(true)
@@ -220,7 +223,7 @@ En el segundo eval, dejo ver que Drools como compilador tambien nos permite refe
 
 Modify{... (Aplicando ordenes en el then RHS )
 -----------------------------------------------
-Muy bien ya hemos visto las *conditios* pero vamos a ver la órdenes. Hemos visto una sencilla ejecucion con el system out, referenciando a la variable local de la rule:
+Muy bien ya hemos visto las *conditios* pero vamos a ver la órdenes. Hemos visto una sencilla ejecución con el system out, referenciando a la variable local de la rule $p:
 ```
     then
     	System.out.println("EJECUTANDO -Adjust Product Price- para el producto [" + $p + "]");
@@ -241,9 +244,9 @@ rule "Adjust Product Price"
 	    System.out.println("el precio ajustado es " + $p.basePrice);
 end
 ```
-Sencillo verdad? abrimos un bloque modify con el scope de la variable definida (ya que se cumplio el LHS- *Left Hand Side*) y en el contexto encontramos la funcion setBasePrice del objeto ProductPrice.
+*Sencillo verdad?* abrimos un bloque modify con el scope de la variable definida (ya que se cumplio el LHS- *Left Hand Side*) y en el contexto encontramos la función setBasePrice del objeto ProductPrice.
 
-Si haces esta modificacion en codigo y ejecutas el Test veras este output:
+Si haces esta modificación en codigo y ejecutas el Test veras este output:
 ```
 el precio ajustado es 0
 ```
@@ -262,10 +265,12 @@ rule 'rulename'
 end
 ```
 
-Vamos a comentar 2 de ellas (las que me parecen mas genericas y obligatorias de conocer), si quieres profundizar tienes la referencia oficial [aquí](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3761)
+Vamos a comentar 2 de ellas (las que me parecen mas genéricas y obligatorias de conocer), si quieres profundizar tienes la referencia oficial [aquí](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3761)
 
 # No-loop
-Imaginemos que metemos un Fact (ProductPrice.java) que su basePrice = 5 , cuando se cumple la condicion solo le restamos 1. **Drools por defecto volvera a evaluar la LHS** y verá que sigue cumpliendose así que la regla será disparada varias veces, hasta que no se cumpla la condicion.
+Imaginemos que metemos un Fact (ProductPrice.java) que su basePrice = 5 , cuando se cumple la condicion solo le restamos 1 a su basePrice. 
+
+Drools por defecto volvera a evaluar la LHS y verá que sigue cumpliendose así que **la regla será disparada varias veces, hasta que no se cumpla la condicion.**
 ```
 rule "Adjust Product Price"
 	when
@@ -333,6 +338,7 @@ EJECUTANDO -Sending Notification-
 ```
 
 Salience (prominencia) es un sistema de pesos que nos permite indicar prioridades sobre las ejecuciones de las reglas en caso de coincidencia.
+
 Si añadimos el atributo salience a las reglas vemos como podemos especificar el orden:
 
 ```	
@@ -447,6 +453,7 @@ Vemos como hacemos la llamada al metodo que acabamos de crear y ademas al pretty
 
 
 # Nuevos Tipos (TYPE - class ) 
+
 Es posible definir nuestras nuevas classes dentro del ecosistema de manera declarativa y sin compilacion previa, ya que el compilador leera la definicion e introducira en el classloader las definiciones para la instanciación.
 
 La declaracion de nuevos tipos se hace en la misma seccion de declaracion de las funciones, usando la palabra reservada "declare".
@@ -514,7 +521,7 @@ PrettyTraces -> ***Product( code=3321, name=Leche, description=Rica en Calcio )*
 
 ```
 
-> Como podemos observar estamos "uglificando" el codigo en este archivo .drl ya que se nos empieza a ir de las manos. Entonces empieza a tener sentido el concepto de "package" , porque podemos tener varios ficheros .drl (uno con definicione de tipos, otro con funciones y otro con las rules...) y al compartir package (namespace) estaran disponibles.
+> Como podemos observar estamos "uglificando" el codigo en este archivo .drl ya que se nos empieza a ir de las manos. Entonces empieza a tener sentido el concepto de "package" , porque podemos tener varios ficheros .drl (uno con definicione de tipos, otro con funciones y otro con las rules...) y al compartir package (namespace) estaran disponibles de manera "global" dentro del namespace.
 
 En la siguiente seccion veremos como incluir varios ficheros , pero antes vamos a ver los "Global" que va muy relacionado con lo que acabamos de ver.
 
