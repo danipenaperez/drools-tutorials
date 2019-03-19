@@ -1,3 +1,7 @@
+Introduccion
+------------
+Drools es un framework BRMS (Bussines rule Management System) implementado por RedHat basado en el algoritmo [Rete](https://es.wikipedia.org/wiki/Algoritmo_Rete). Este algoritmo es capaz de hacer correspondencias entre objetos que entraran al ecosistema y las acciones inferidas correspondientes basado en las reglas definidas.
+
 
 Definiciones
 ------------
