@@ -274,9 +274,9 @@ Drools por defecto volvera a evaluar la LHS y verá que sigue cumpliendose así 
 ```
 rule "Adjust Product Price"
 	when
-			$p : ProductPrice(basePrice > 2 )
+	    $p : ProductPrice(basePrice > 2 )
 	then		
-		modify($p){
+	    modify($p){
 	    	setBasePrice($p.basePrice -1);
 	    }
 	    System.out.println("el precio ajustado es " + $p.basePrice);
