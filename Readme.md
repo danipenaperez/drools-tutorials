@@ -162,6 +162,7 @@ Por partes:
 	* Hay ya muchos DSL que se basan en esto, pero pongo aqui un ejemplillo de equivalencia de código:
 	  	* java version: $person.getAddresses().get("home").setStreetName("my street");
 		* mvel version: $person.addresses["home"].streetName = "my street";
+		
 		Mvel también nos permite asignacion de variables en el scope de una rule de manera sencilla ($varName), asi como la deficion de nuevos tipos(classes) de manera sencilla.
 	* **"java"**-> Pues Java. Es decir podemos incluir nuestra sintaxis java dentro del .drl.Su única restriccion es que solo se puede usar en el LHS (lefHandSide), es decir en el *then*.
 
