@@ -1,6 +1,13 @@
 Introduccion
 ------------
-Drools es un framework BRMS (Bussines rule Management System) implementado por RedHat basado en el algoritmo [Rete](https://es.wikipedia.org/wiki/Algoritmo_Rete). Este algoritmo es capaz de hacer correspondencias entre objetos que entraran al ecosistema y las acciones inferidas correspondientes basado en las reglas definidas.
+El concepto de un motor de reglas, difiere del modelo tradicional en el que nuestro codigo invoca a unas funciones o métodos de un servicio pasandole unos objetos de entrada, si no que se basa en que hay objetos que existen en nuestro ecosistema (ejecucion), dichos objetos tienen un estado y hay reglas que defienen que acciones se deben tomar acode a esos estados.
+
+Drools es un framework BRMS (Bussines rule Management System) implementado por la gente de RedHat basado en el algoritmo [Rete](https://es.wikipedia.org/wiki/Algoritmo_Rete). Este algoritmo es capaz de hacer correspondencias entre objetos que entran a un ecosistea y las acciones inferidas correspondientes basado en las reglas definidas dentro de dicho ecosistema.
+Rete es capaz de alamacenar dichas correspondecias/emparejamientos, de forma que es capaz de optimizar el procesamiento de un objeto de entrada y las reglas a disparar ahorrando el procesamiento repetitivo que deberíamos hacer en cada ejecución. Su ahorro en recursos computacionales y capacidades de clusterización lo convierten en una herramienta muy óptima para entornos de producción.
+
+Otro punto a su favor, es la encapsulacion de todo el procesamiento funcional de una aplicación. La definición de las reglas de negocio se implementan en un DSL sencillo, de forma que no se requiere un conocimiento tecnico amplio para definir el comportamiento de una aplicación.
+
+El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
 
 Definiciones
