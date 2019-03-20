@@ -7,7 +7,7 @@ Rete es capaz de alamacenar dichas correspondecias/emparejamientos, de forma que
 
 Otro punto a su favor, es la encapsulación de todo el procesamiento funcional de una aplicación. La definición de las reglas de negocio se implementan en un DSL sencillo, de forma que no se requiere un conocimiento tecnico amplio para definir el comportamiento de una aplicación.
 
-![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
+	![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
 
 El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
