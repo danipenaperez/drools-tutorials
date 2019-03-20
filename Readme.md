@@ -9,7 +9,9 @@ Otro punto a su favor, es la encapsulación de todo el procesamiento funcional d
 
 ![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
 
-El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
+El motor de reglas se ejecuta como una **"caja negra"** portable dentro de nuestra aplicación. De forma que el desacoplado de capas esta garantizado. Incluso una persona con pocos conocimientos tecnicos sería capaz de definir las reglas de negocio que deben correr dentro (usando un simple excel) y cambiarlas posteriormente sin necesidad de que nosotros tengamos que tocar el codigo y correrlas con un simple redespliegue de aplicacion. (esto que comento es muy idílico, pero la idea va un poco en este sentido).
+
+Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
 
 Definiciones
@@ -135,10 +137,15 @@ public class DroolsDemoApplicationTests {
 		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
 		priceCalculatorService.executeRules(productPrice);//Call service and internal 
 								   //BlackBox rules engine
+		System.out.println(productPrice);//final object state after rules execution
 	}
 }
 ```
-Vemos que instanciamos un precio de producto con basePrice = 5. Luego se lo pasamos al service y este ejecuta "la caja negra" del motor de reglas. 
+Vemos que :
+* **instanciamos un precio de producto con basePrice = 5. **
+* **Se lo pasamos al service y este ejecuta "la caja negra" del motor de reglas**
+* **Por ultimo vemos como queda nuestro productPrice despues de que lo modifique el motor de reglas.**
+
 Esta configuracion y ejemplo sencillo es más que suficiente para hacer nuestras pruebas y juguetear un poco.
 
 Vamos a ver el contenido de nuestra definicion de reglas del archivo discountRules.drl. 
