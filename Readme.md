@@ -7,7 +7,7 @@ Rete es capaz de alamacenar dichas correspondecias/emparejamientos, de forma que
 
 Otro punto a su favor, es la encapsulación de todo el procesamiento funcional de una aplicación. La definición de las reglas de negocio se implementan en un DSL sencillo, de forma que no se requiere un conocimiento tecnico amplio para definir el comportamiento de una aplicación.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
+![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
 
 El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
@@ -34,7 +34,7 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 * **KnowledgeBase**: Repositorio donde encontrar las reglas y construir la engine , es decir la Knowledge Session.Como puedes imaginar, ese repositorio puede nutrirse de diferentes fuentes de donde leer la definicion de las reglas: de un directorio local, un repositorio remoto centralizado y versionado de las reglas (, o al fin de alcabo cualquier cosa convertible a un array de bytes ... 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![RulesEngineElements](https://www.codeproject.com/KB/work/Business_Rules_Systems/fig2.png)
+![RulesEngineElements](https://www.codeproject.com/KB/work/Business_Rules_Systems/fig2.png)
 
 > *El proyecto Business Central Workbench WildFly WAR servido a traves del KIE Execution Server (Wildfly Application server) de la gente de JBoos nos permite desplegar un servidor centralizado de reglas, donde podemos editar, versionar y servir configuracion de una manera centralizada a distintos servidores de ejecucion.*
 
@@ -143,6 +143,8 @@ Esta configuracion y ejemplo sencillo es más que suficiente para hacer nuestras
 
 Vamos a ver el contenido de nuestra definicion de reglas del archivo discountRules.drl. 
 Esta primera version es muy sencilla, al introducir el producto en el engine chequeará si el precio del producto es mayor que 2 y si es asi hara un print por consola.
+
+![Rules](https://www.britishcouncil.org/sites/default/files/rule630x354.jpg)
 
 discountRules.drl
 ------------------
