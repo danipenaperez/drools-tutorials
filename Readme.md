@@ -9,7 +9,9 @@ Otro punto a su favor, es la encapsulación de todo el procesamiento funcional d
 
 ![blackbox](https://blog.f1000.com/wp-content/uploads/2017/06/black_box_blog.png)
 
-El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
+El motor de reglas se ejecuta como una **"caja negra"** portable dentro de nuestra aplicación. De forma que el desacoplado de capas esta garantizado. Incluso una persona con pocos conocimientos tecnicos sería capaz de definir las reglas de negocio que deben correr dentro (usando un simple excel) y cambiarlas posteriormente sin necesidad de que nosotros tengamos que tocar el codigo y correrlas con un simple redespliegue de aplicacion. (esto que comento es muy idílico, pero la idea va un poco en este sentido).
+
+Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
 
 Definiciones
