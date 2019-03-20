@@ -34,6 +34,8 @@ En el ecosistema de un BPM, en este caso de Drools (JBPM) encontramos varios con
 
 * **KnowledgeBase**: Repositorio donde encontrar las reglas y construir la engine , es decir la Knowledge Session.Como puedes imaginar, ese repositorio puede nutrirse de diferentes fuentes de donde leer la definicion de las reglas: de un directorio local, un repositorio remoto centralizado y versionado de las reglas (, o al fin de alcabo cualquier cosa convertible a un array de bytes ... 
 
+![RulesEngineElements](https://www.codeproject.com/KB/work/Business_Rules_Systems/fig2.png)
+
 > *El proyecto Business Central Workbench WildFly WAR servido a traves del KIE Execution Server (Wildfly Application server) de la gente de JBoos nos permite desplegar un servidor centralizado de reglas, donde podemos editar, versionar y servir configuracion de una manera centralizada a distintos servidores de ejecucion.*
 
 La forma en como se buscan, indexan , interpretan las definiciones de reglas, el estado de contexto a usar (stateless/statefull), en definitiva la forma en la que el BPM compila y actua es totalmente editable desde el API que nos proporciona jBPM y Drools. 
