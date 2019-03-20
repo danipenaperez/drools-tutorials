@@ -651,6 +651,7 @@ ORGANIZANDO EL CODIGO
 ---------------------
 Hemos visto ya que tenemos un batiburrillo de declaraciones, imports, functions, declares, tipos, globals, rules...
 y todo en el mismo archivo...bufff es una casa de locos. 
+![Disorder](http://sciencevibe.com/wp-content/uploads/2016/03/anxiety.jpg)
 
 Vamos a estructurarlo un poco, ya no solo por tenerlo mas legible, si no porque si sabemos dividir bien, podemos generar "ecosistemas" solamente juntando piezas (.drl) y lograr asi comportamientos portables y flexibes.
 
