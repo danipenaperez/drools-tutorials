@@ -270,6 +270,7 @@ el precio ajustado es 0
 
 Rules Attributes (orden de ejecución de las reglas, bucles infinitos, etc...)
 -----------------
+![rulesAttributes](https://images.vexels.com/media/users/3/128549/isolated/preview/93d10a2898896ef43826877d1d2113b8-reciclaje-de-flecha-icon-svg-by-vexels.png)
 Como comente antes, el comportamiento en runtime de una rule se puede restringir. Para ello debemos usar los rule atributes que nos ofrece drools. Estos se defienen justo debajo de la definición del nombre de la rule:
 ```
 rule 'rulename'
