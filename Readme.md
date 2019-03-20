@@ -649,8 +649,8 @@ Publishing newProduct Topic , content [{"code":3321,"name":"Leche","description"
 
 ORGANIZANDO EL CODIGO
 ---------------------
-Hemos visto ya que tenemos un batiburrillo de declaraciones, imports, functions, declares, tipos, globals, rules...
-y todo en el mismo archivo...bufff es una casa de locos. 
+Hemos visto ya que tenemos un batiburrillo de declaraciones, imports, functions, declares, tipos, globals, rules... y todo en el mismo archivo...bufff es una casa de locos. 
+
 ![Disorder](http://sciencevibe.com/wp-content/uploads/2016/03/anxiety.jpg)
 
 Vamos a estructurarlo un poco, ya no solo por tenerlo mas legible, si no porque si sabemos dividir bien, podemos generar "ecosistemas" solamente juntando piezas (.drl) y lograr asi comportamientos portables y flexibes.
@@ -659,13 +659,13 @@ La idea de dividir en archivos, separando las reglas en un .drl, las definicione
 nos va a generar una dependencia entre imports de ficheros , todavia no hay un sistema de dependencias entre 
 ficheros de reglas y lo deberiamos de gestionar nosotros a mano :-( . 
 
-Por otro lado estructurar un poco el .drl tambien creo que es una buena practica y  nos ayuda a mantener la atomicidad y coherencia del contexto de las reglas.
+> Por otro lado estructurar un poco el .drl tambien creo que es una buena practica y  nos ayuda a mantener la atomicidad y coherencia del contexto de las reglas.
 
 Yo voy a dividir en distintos archivos, para que se vea y entienda el concepto de package que comente al princpio y que no he "implementado/explicado" todavía por darle continuidad a este tutorial.
 
 Tambien, habrá de los que piensen que meter los "global" crean una dependencia de ejecucion con elementos externos , totalmente de acuerdo. Tambien podríamos optar por importar tipos del classpath y hacerlo todo en drools, pero con la facilidad que nos da Spring para un monton de cosas pues eso...para gustos los colores.
 
-Como hemos visto, importar los archivos .drl en nuestro ecosistema, se reduce a importar un array de bytes, asi que podríamos optar por implementar un repositorio  central de ficheros .drl , versionable y que a parte nos provea de informacion de dependencias de archivos .drl... no sé, deja volar tu imaginación..quizas un springcloudConfig /zookeeper, etc.. 
+Como hemos visto, importar los archivos .drl en nuestro ecosistema, se reduce a importar un array de bytes, asi que podríamos optar por implementar un repositorio  central de ficheros .drl , versionable y que a parte nos provea de informacion de dependencias de archivos .drl... no sé, deja volar tu imaginación..quizas un **springcloudConfig /zookeeper**, etc.. 
 
 ## Sacando la tijera
 Generamos 4 archivos separando los elementos, pero ahora si que es obligatorio que **todos incluyan la definicion del mismo package** (que como comente al principio, solo es un namespace)
