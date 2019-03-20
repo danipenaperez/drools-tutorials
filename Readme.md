@@ -1,11 +1,11 @@
 Introduccion
 ------------
-El concepto de un motor de reglas, difiere del modelo tradicional en el que nuestro codigo invoca a unas funciones o métodos de un servicio pasandole unos objetos de entrada, si no que se basa en que hay objetos que existen en nuestro ecosistema (ejecucion), dichos objetos tienen un estado y hay reglas que defienen que acciones se deben tomar acode a esos estados.
+El concepto de un motor de reglas, difiere del modelo tradicional en el que nuestro codigo invoca a unas funciones o métodos de un servicio pasandole unos objetos de entrada, si no que se basa en que hay objetos que existen en nuestro ecosistema (ejecucion), dichos objetos tienen un estado y hay reglas que defienen que acciones se deben tomar acorde a esos estados.
 
 Drools es un framework BRMS (Bussines rule Management System) implementado por la gente de RedHat basado en el algoritmo [Rete](https://es.wikipedia.org/wiki/Algoritmo_Rete). Este algoritmo es capaz de hacer correspondencias entre objetos que entran a un ecosistea y las acciones inferidas correspondientes basado en las reglas definidas dentro de dicho ecosistema.
-Rete es capaz de alamacenar dichas correspondecias/emparejamientos, de forma que es capaz de optimizar el procesamiento de un objeto de entrada y las reglas a disparar ahorrando el procesamiento repetitivo que deberíamos hacer en cada ejecución. Su ahorro en recursos computacionales y capacidades de clusterización lo convierten en una herramienta muy óptima para entornos de producción.
+Rete es capaz de alamacenar dichas correspondecias/emparejamientos, de forma que es capaz de optimizar el procesamiento de un objeto de entrada y las reglas a disparar ahorrando el procesamiento repetitivo que deberíamos hacer en cada ejecución. Su ahorro en recursos computacionales y capacidades de clusterización lo convierten en una herramienta muy óptima para entornos productivos.
 
-Otro punto a su favor, es la encapsulacion de todo el procesamiento funcional de una aplicación. La definición de las reglas de negocio se implementan en un DSL sencillo, de forma que no se requiere un conocimiento tecnico amplio para definir el comportamiento de una aplicación.
+Otro punto a su favor, es la encapsulación de todo el procesamiento funcional de una aplicación. La definición de las reglas de negocio se implementan en un DSL sencillo, de forma que no se requiere un conocimiento tecnico amplio para definir el comportamiento de una aplicación.
 
 El motor de reglas se ejecuta como una "caja negra" portable dentro de nuestra aplicación. De forma que el desacoplo de capas esta garantizado. Estos motores BPM nos permiten susbscribirnos a eventos que sucenden dentro nos proporcionan un api de configuracion para ejecuciones.
 
@@ -92,8 +92,8 @@ public class BPMConfigurations {
 	}
 }
 ```
-Como podemos ver KIE nos abstrae de configuracion de Modules BPM y demás configuracion subyacente. Con este Bean en el contexto ya podemos empezar a trastear.
-Le especificamos que carge 1 fichero de reglas que se encuentran en el classPath (src/main/resources/rules/discountRules.drl) y ya el KIEContainer hace todo por nosotros.
+Como podemos ver KIE nos abstrae de configuracion de Modules BPM y demás configuración subyacente. Con este Bean en el contexto ya podemos empezar a trastear.
+Le especificamos que carge 1 fichero de reglas que se encuentran en el classpath (src/main/resources/rules/discountRules.drl) y ya el KIEContainer hace todo por nosotros.
 
 
 Ahora generamos un POJO para actuar como Fact (ProductPrice.java) muy sencillo (he usado lombok framework para excluir codigo declarativo innecesario): 
@@ -845,7 +845,7 @@ kieSession.addEventListener(new RuleRuntimeEventListener() {
 etc..
 ```
 
-> A veces nos interesa por performance crear una session que no contenga todas las reglas, porque si te paras a pensarlo, se evaluan todas las reglas cada vez que es disparada la ejecucion y en muchos casos eso puede no tener sentido con la consecuente degradacion de rendimiento. **El tunning de Drools deberias manejarlo desde esta API de KIEContainer.**
+> **El tunning de Drools deberias manejarlo desde esta API de KIEContainer.**
 
 
 
