@@ -1,7 +1,15 @@
 package com.dppware.droolsDemo.services;
 
+import org.kie.api.event.rule.ObjectDeletedEvent;
+import org.kie.api.event.rule.ObjectInsertedEvent;
+import org.kie.api.event.rule.ObjectUpdatedEvent;
+import org.kie.api.event.rule.RuleRuntimeEventListener;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.KieSessionConfiguration;
+import org.kie.api.runtime.conf.KieSessionOption;
+import org.kie.api.runtime.conf.MultiValueKieSessionOption;
+import org.kie.api.runtime.conf.SingleValueKieSessionOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +31,7 @@ public class PriceCalculatorService {
     	KieSession kieSession = kieContainer.newKieSession();
     	kieSession.setGlobal("publishTool", pushSubService);//adding globals
     	kieSession.insert(productPrice);
-        kieSession.fireAllRules();
+    	kieSession.fireAllRules();
         kieSession.dispose();
     }
     
@@ -37,14 +45,15 @@ public class PriceCalculatorService {
     	kieContainer.getKieBase().getKiePackage("com.demo.product").getFunctionNames();
     	kieContainer.getKieBase().getKiePackage("com.demo.product").getGlobalVariables();
     	kieContainer.getKieBase().getKiePackage("com.demo.product").getRules();
-    	
+    	kieContainer.getKieSessionConfiguration();
     }
     
     
 }
-
-
-
+/**
+use deo algoritm Rete
+JSR-94 Rule Engine API.
+**
 /**
 
 @Autowired

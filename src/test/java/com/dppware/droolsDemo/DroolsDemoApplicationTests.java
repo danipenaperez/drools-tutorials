@@ -18,5 +18,7 @@ public class DroolsDemoApplicationTests {
 	public void executeCalculations() {
 		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
 		priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
+		System.out.println(productPrice);//final object state
+		
 	}
 }
