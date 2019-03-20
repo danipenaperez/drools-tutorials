@@ -140,9 +140,9 @@ public class DroolsDemoApplicationTests {
 }
 ```
 Vemos que :
-* instanciamos un precio de producto con basePrice = 5. 
-* Se lo pasamos al service y este ejecuta "la caja negra" del motor de reglas
-* Por ultimo vemos como queda nuestro productPrice despues de que lo modifique el motor de reglas.
+* **instanciamos un precio de producto con basePrice = 5. **
+* **Se lo pasamos al service y este ejecuta "la caja negra" del motor de reglas**
+* **Por ultimo vemos como queda nuestro productPrice despues de que lo modifique el motor de reglas.**
 
 Esta configuracion y ejemplo sencillo es más que suficiente para hacer nuestras pruebas y juguetear un poco.
 
