@@ -1,5 +1,6 @@
 package com.dppware.droolsDemo.bean;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,13 +10,11 @@ import lombok.ToString;
  * @author dpena
  *
  */
-@Getter @Setter @NoArgsConstructor @ToString
-public class ProductPrice {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+public class DeviceEvent {
 	
-	private Integer basePrice;
+	private String name;
 	
-	public ProductPrice(Integer basePrice) {
-		this.basePrice=basePrice;
-	}
+	private Integer measure;
 	
 }

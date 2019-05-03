@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.dppware.droolsDemo.bean.ProductPrice;
-import com.dppware.droolsDemo.services.PriceCalculatorService;
+import com.dppware.droolsDemo.bean.DeviceEvent;
+import com.dppware.droolsDemo.services.CentralAlarmService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DroolsDemoApplicationTests {
 	@Autowired
-	private PriceCalculatorService priceCalculatorService;
+	private CentralAlarmService centralAlarmService;
 	@Test
 	public void executeCalculations() {
-		ProductPrice productPrice = new ProductPrice(5);//Create the Fact
-		priceCalculatorService.executeRules(productPrice);//Call service and internal BlackBox rules engine
-		System.out.println(productPrice);//final object state
+		DeviceEvent deviceEvent = new DeviceEvent("DoorEntrance", 1);//detect door open
+		centralAlarmService.executeRules(deviceEvent);//Call service and internal BlackBox rules engine
+		System.out.println(deviceEvent);//final object state
 		
 	}
 }

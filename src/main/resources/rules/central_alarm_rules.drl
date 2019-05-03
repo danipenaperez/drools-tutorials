@@ -1,0 +1,66 @@
+package com.demo.product;
+
+import com.dppware.droolsDemo.bean.*;
+
+dialect  "mvel"
+
+/**
+* Always exec when a central alarm is added to the environment
+**/
+rule "Added Central Alarm"
+	when
+     	$ca : CentralAlarm()
+    then
+	    modify($ca){
+			  	setStatus("ready");
+		}
+    	System.out.println("Sucessfully added central alarm to monitoring rules engine");
+	    
+end
+
+
+
+
+/**
+* Always exec when a central alarm is added to the environment
+**/
+rule "Received Sensor Active Device Event"
+	when
+     	$ca : CentralAlarm()
+     	$de : DeviceEvent(measure > 0)
+    then
+	    System.out.println("Received Device Event "+ $de);
+	    modify($ca){
+			  	setStatus("fired");
+		}
+    	System.out.println("On central Alarm "+$ca);
+	    
+end
+
+/**
+* Each device event incoming
+**/
+rule "Received Sensor Device Event"
+	when
+		$ca : CentralAlarm()
+     	$de : DeviceEvent()
+    then
+	    System.out.println("Received Device Event "+ $de);
+	    System.out.println("On central Alarm "+$ca);
+	    
+end
+
+
+
+/**
+* When the Alarm is Fired
+**/
+rule "Alarm Fired"
+	timer ( int: 10s )
+	when
+     	$ca : CentralAlarm(status == "fired")
+    then
+	   System.out.println("Panic!!! Panic!!!");
+	   System.out.println("Panic!!! Panic!!!");
+	   System.out.println("Panic!!! Panic!!!");
+end

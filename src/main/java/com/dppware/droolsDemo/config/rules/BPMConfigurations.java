@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 public class BPMConfigurations {
 	//private static final String[] drlFiles = { "rules/discountRules.drl"};
 	
-	private static final String[] drlFiles = { 	"rules/product_beans.drl", 
-												"rules/product_dependencies.drl",
-												"rules/product_functions.drl",
-												"rules/product_rules.drl"
+	private static final String[] drlFiles = { 	"rules/central_alarm_beans.drl", 
+												"rules/central_alarm_dependencies.drl",
+												"rules/central_alarm_functions.drl",
+												"rules/central_alarm_rules.drl"
 											};
 	
 	
