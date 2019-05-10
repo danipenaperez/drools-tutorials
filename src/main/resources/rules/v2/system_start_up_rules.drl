@@ -1,0 +1,50 @@
+package com.demo.centralAlarm;
+
+import com.dppware.droolsDemo.bean.*;
+import com.dppware.droolsDemo.bean.device.*;
+
+dialect  "mvel"
+
+/**
+* Always exec when a central alarm is added to the environment
+**/
+rule "Added Central Alarm to The System"
+	when
+     	$ca : CentralAlarm()
+    then
+	    modify($ca){
+			  	setStatus("ready");
+		}
+    	System.out.println("Sucessfully added central alarm to monitoring rules engine");
+	    
+end
+
+/**
+* Always exec when a Presence Sensor is added  added to the environment
+**/
+rule "Added Presence Sensor to the System Alarm"
+	when
+     	$ps : PresenceSensor()
+    then
+    	modify($ps){
+			  	setStatus("ready");
+		}
+	    System.out.println("Sucessfully added PresenceSensor " + $ps.id + "to the system");
+end
+
+/**
+* Always exec when a Lock  is added  added to the environment
+**/
+rule "Added Door Lock to the System Alarm"
+	when
+     	$ps : Lock()
+    then
+    	
+		$ps.close();//ensure the door lock start state is closed
+		System.out.println("Sucessfully added Locked " + $ps.id + "to the system");
+end
+
+
+
+
+

@@ -15,6 +15,6 @@ public class DeviceEvent {
 	
 	private String name;
 	
-	private Integer measure;
+	private String value;
 	
 }

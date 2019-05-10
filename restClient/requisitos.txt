@@ -1,0 +1,122 @@
+Quiero sistema de seguridad con 
+	- 2 presencia (garage y pasillo)
+	- 1 sensor de incendios
+	- 1 cerradura
+	- 1 camara de video
+	
+1.Quiero tracking de todo lo que pasa en la casa
+
+Cerradura:
+	1. Siempre que se abra me tiene que enviar notificacion al movil
+	2. En cualquier momento si se abre y no se cierra en mas de 1 minuto que salte la alarma porque la puerta se ha quedado abierta
+	3. Entre las 23 hasta las 8 de la mañana se abre que salte la alarma, que no somos ninguno de nosotros.
+	 
+	
+volumetrico:
+	-si detecta presencia en el garage que la camara se ponga a grabar 1 minuto (como poco) o hasta que se apague la presencia.
+	 
+sensor incendio:
+	- si detecta humo se abre la puerta
+		
+alarma:
+	- siempre que se encienda la alarma me envia SMS
+	- Si se activa la alarma se apaga sola, despues de que pasen 30 segundos y si no hay ningun sensor activado 
+	
+	
+Y ademas quiero cambiar y poder jugar con este comportamiento.
+
+
+-------------------------------
+
+Lo primero definir los Beans:
+@Getter @Setter @NoArgsConstructor @ToString @AllArgsConstructor
+public class PresenceSensor {
+	private String id;
+	private String status;
+}
+@Getter @Setter @NoArgsConstructor @ToString @AllArgsConstructor
+public class PresenceSensor {
+	private String id;
+	private String status;
+}
+public class Camera {
+	private String id;
+	private String status;
+	public void startRecord() {
+		this.status="recording";
+	}
+	public void stopRecord() {
+		this.status="stop";
+	}
+}
+
+
+
+
+Y ahora vamos a meter una regla para cada condicion de negocio, 
+Cerradura.drl
+
+Requisito 1:
+Siempre que se abra me tiene que enviar notificacion al movil
+
+	Aqui decia queSiempre que se abra me tiene que enviar notificacion al movil. entonces necesito inyectarle a drools una utilidad que envie notificaciones por sms.
+	1.Creamos el servicio 
+		@Slf4j
+		public class SMSServices {
+			
+			public void sendSMS(String text) {
+				//calling twilio with message...
+				log.info("Sended Email content[ {} ]", text);
+			}
+		}
+	
+	2.Se lo inyectamos a drools como global (central_alarm_dependencies.drl):
+		package com.demo.centralAlarm;
+		//global Sets
+		global com.dppware.droolsDemo.services.SMSServices smsService;
+	
+	3.Creamos la regla
+
+		rule "Siempre que se abra la cerradura me tiene que enviar notificacion al movil"
+			when
+		     	$ca : Lock(status == "open")
+		    then
+			    smsService.sendSMS("Se ha abierto la cerradura "+ new Date()); //vemos que podemos usar java.lang sin tener que importarlo explicitamente
+			    
+		end
+		
+Requisito 2:
+En cualquier momento si se abre y no se cierra en mas de 1 minuto que salte la alarma porque la puerta se ha quedado abierta		
+	Creamos la regla:
+	
+		rule "En cualquier momento si se abre y no se cierra en mas de 1 minuto que salte la alarma porque la puerta se ha quedado abierta"
+			timer ( int: 1m 1m )
+			when
+		     	$ca : Lock(status == "open")
+		     	$ca : CentralAlarm()
+		    then
+			    modify($ca){
+			  		setStatus("fired");
+				}
+			    
+		end
+ (todavia no hemos hecho las rules de la alarma, pero tener en cuenta que la alarma al activarse deberia enviar SMS)
+
+Requisito 3:
+3. Entre las 23 hasta las 8 de la mañana se abre que salte la alarma, que no somos ninguno de nosotros.
+	Creamos la rule:
+	
+		rule "Entre las 23 hasta las 8 de la mañana se abre que salte la alarma, que no somos ninguno de nosotros."
+			timer( cron: 0 0 0,8 ? * * * )
+			when
+		     	$ca : Lock(status == "open")
+		    then
+			    modify($ca){
+			  		setStatus("fired");
+				}
+		end
+		
+
+
+
+		

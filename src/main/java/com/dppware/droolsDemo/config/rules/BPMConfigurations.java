@@ -14,15 +14,18 @@ import org.springframework.context.annotation.Configuration;
 public class BPMConfigurations {
 	//private static final String[] drlFiles = { "rules/discountRules.drl"};
 	
-	private static final String[] drlFiles = { 	"rules/central_alarm_beans.drl", 
-												"rules/central_alarm_dependencies.drl",
-												"rules/central_alarm_functions.drl",
-												"rules/central_alarm_rules.drl"
+	private static final String[] drlFiles = { 	"rules/v2/central_alarm_beans.drl", 
+												"rules/v2/central_alarm_dependencies.drl",
+												"rules/v2/central_alarm_functions.drl",
+												"rules/v2/central_alarm_rules.drl",
+												"rules/v2/system_start_up_rules.drl",
+												"rules/v2/door_lock_rules.drl"
 											};
 	
 	
 	@Bean
 	public KieContainer kieContainer() {
+		//System.setProperty("drools.dialect.mvel.strict", "false");
 		KieServices kieServices = KieServices.Factory.get(); 
 		//Load Rules and Ecosystem Definitions
 		KieFileSystem kieFileSystem = kieServices.newKieFileSystem();

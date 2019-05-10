@@ -1,0 +1,18 @@
+package com.demo.centralAlarm;
+
+import com.dppware.droolsDemo.bean.*;
+import com.dppware.droolsDemo.bean.device.*;
+
+dialect  "mvel"
+
+/**
+* Always detect presence send SMS
+**/
+rule "When any Presence Sensor detect send SMS "
+	when
+     	$ps : PresenceSensor(status == "detected")
+    then
+   		smsService.sendSMS($ps + " Ha pasado a abierto");
+end
+
+

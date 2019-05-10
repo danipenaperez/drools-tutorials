@@ -1,0 +1,30 @@
+package com.demo.centralAlarm;
+
+import com.dppware.droolsDemo.bean.*;
+import com.dppware.droolsDemo.bean.device.*;
+
+import java.util.Date;
+
+dialect  "mvel"
+
+/**
+* Always exec when a Lock  is added  added to the environment
+**/
+rule "When Door is open send Notification "
+	when
+     	$ps : Lock(status == "open")
+    then
+   		smsService.sendSMS($ps + " Ha pasado a abierto");
+end
+
+/**
+* Always after 10 seconds open the lock will be closed
+**/
+rule "Always after 10 seconds open the lock will be closed "
+	timer ( int: 10s )
+	when
+     	$lock : Lock(status == "open")
+    then
+   		$lock.close();
+   		System.out.println("ahora es "+new Date());
+end

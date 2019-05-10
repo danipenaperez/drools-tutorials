@@ -16,7 +16,7 @@ public class DroolsDemoApplicationTests {
 	private CentralAlarmService centralAlarmService;
 	@Test
 	public void executeCalculations() {
-		DeviceEvent deviceEvent = new DeviceEvent("DoorEntrance", 1);//detect door open
+		DeviceEvent deviceEvent = new DeviceEvent("DoorEntrance", "1");//detect door open
 		centralAlarmService.executeRules(deviceEvent);//Call service and internal BlackBox rules engine
 		System.out.println(deviceEvent);//final object state
 		
