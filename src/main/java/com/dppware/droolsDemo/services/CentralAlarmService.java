@@ -1,10 +1,14 @@
 package com.dppware.droolsDemo.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
 import org.drools.core.ClassObjectFilter;
+import org.kie.api.KieServices;
+import org.kie.api.marshalling.Marshaller;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +116,26 @@ public class CentralAlarmService {
 	public Device getDeviceById(String id) {
 		return alarm.getDevices().get(id);
 	}
+	
+	
+	/***
+	 * SERIALIZE MARSHALLING
+	 * @throws IOException 
+	 */
+	public void stopSession() throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Marshaller marshaller = KieServices.Factory.get().getMarshallers().newMarshaller( kieSession.getKieBase() );
+		marshaller.marshall( baos, kieSession );
+		baos.close();
+	}
+	
+	public void restartSession() {
+		KieServices kieServices = KieServices.Factory.get();
+		Integer kieSessionId = kieSession.getId();
+		
+		KieSession ksession = kieServices.getStoreServices().loadKieSession( kieSessionId, kieSession.getKieBase(), null, kieSession.getEnvironment() );
+	}
+	
+	
     
 }
