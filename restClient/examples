@@ -1,0 +1,23 @@
+rule "When a Device Lock Event arrives "
+	when
+     	$dle : DeviceLockEvent(value == "open")
+     	$lock : Lock(id == $dle.name)
+    then
+    	
+    	System.out.println("Ha entrado evento para el lock "+$lock.id);
+end
+
+
+
+https://pastebin.com/YubQRE3w
+
+https://marianbuenosayres.wordpress.com/2013/07/10/making-a-non-persistent-ha-knowledge-session/
+
+https://medium.com/@paragyte2/key-advantages-of-drools-rule-engine-96e3353129b0
+
+https://salaboy.com/2009/05/27/jugando-con-drools-5-0-2-drools-expert/
+
+
+https://salaboy.com/2009/10/07/drools-como-business-knowledge-integration-platform-bkip/
+
+https://stackoverflow.com/questions/4730767/tomcat6-and-drool-rules-reloading?rq=1

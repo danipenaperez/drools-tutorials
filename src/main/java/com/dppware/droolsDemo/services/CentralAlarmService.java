@@ -1,10 +1,10 @@
 package com.dppware.droolsDemo.services;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.drools.core.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,14 @@ import com.dppware.droolsDemo.bean.DeviceEvent;
 import com.dppware.droolsDemo.bean.device.Device;
 import com.dppware.droolsDemo.bean.device.Lock;
 import com.dppware.droolsDemo.bean.device.PresenceSensor;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
+import com.dppware.droolsDemo.bean.event.DeviceLockEvent;
+import com.dppware.droolsDemo.bean.event.PresenceSensorEvent;
 
 @Service
 public class CentralAlarmService {
 
 	private CentralAlarm alarm;
 	
-	private Map<String, Device> devices = new HashMap<String, Device>();
 	
 	@Autowired
 	private SMSServices smsService;
@@ -47,16 +46,16 @@ public class CentralAlarmService {
 		//Add Presence Sensor garage
 		PresenceSensor psGarage = new PresenceSensor("GarageSensor","-");
 		kieSession.insert(psGarage);
-		devices.put(psGarage.getId(), psGarage);
+		alarm.getDevices().put(psGarage.getId(), psGarage);
 		
 		PresenceSensor psPasillo = new PresenceSensor("PasilloSensor","-");
 		kieSession.insert(psPasillo);
-		devices.put(psPasillo.getId(), psPasillo);
+		alarm.getDevices().put(psPasillo.getId(), psPasillo);
 		
 		
 		Lock lock = new Lock("EntranceLock","-");
 		kieSession.insert(lock);
-		devices.put(lock.getId(), lock);
+		alarm.getDevices().put(lock.getId(), lock);
 		
     	//kieSession.fireAllRules();
     	new Thread() {
@@ -64,9 +63,39 @@ public class CentralAlarmService {
     		public void run() {
     			kieSession.fireUntilHalt();
     		}
-    	}.start();;
+    	}.start();
     	
 	}
+
+    
+    
+    /**
+     * FIRING INPUT METHODS
+     * 
+     */
+	
+	public void processDeviceEvent(Lock deviceEvent) {
+		System.out.println("hola");
+		Collection<Lock> myfacts = (Collection<Lock>) kieSession.getObjects( new ClassObjectFilter(Lock.class) );
+		kieSession.insert(deviceEvent);
+	}
+	
+	public void processDeviceEvent(DeviceLockEvent deviceEvent) {
+		kieSession.insert(deviceEvent);
+	}
+	public void processDeviceEvent(PresenceSensorEvent deviceEvent) {
+		kieSession.insert(deviceEvent);
+	}
+
+	
+	
+	public void processDeviceStatus(Device deviceStatus) {
+			kieSession.insert(deviceStatus);
+	}
+	
+	
+	
+	
 	/**
 	 * Main drools engine Accessing
 	 * @param productPrice
@@ -76,18 +105,12 @@ public class CentralAlarmService {
     	//kieSession.dispose();
         System.out.println(alarm.getStatus());
     }
-	public void processDeviceEvent(Device deviceEvent) {
-		kieSession.insert(deviceEvent);
-		//kieSession.fireAllRules();
-		//kieSession.dispose();//borrar esto porque mata la session
-		
-	}
 	public CentralAlarm getAlarm() {
 		return alarm;
 	}
 	
 	public Device getDeviceById(String id) {
-		return devices.get(id);
+		return alarm.getDevices().get(id);
 	}
     
 }

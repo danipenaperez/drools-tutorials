@@ -2,6 +2,7 @@ package com.demo.centralAlarm;
 
 import com.dppware.droolsDemo.bean.*;
 import com.dppware.droolsDemo.bean.device.*;
+import com.dppware.droolsDemo.bean.event.*;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ rule "When Door is open send Notification "
 	when
      	$ps : Lock(status == "open")
     then
-   		smsService.sendSMS($ps + " Ha pasado a abierto");
+    	smsService.sendSMS($ps + " Ha pasado a abierto");
 end
 
 /**
@@ -28,3 +29,31 @@ rule "Always after 10 seconds open the lock will be closed "
    		$lock.close();
    		System.out.println("ahora es "+new Date());
 end
+
+
+/**
+* Always after 10 seconds open the lock will be closed
+**/
+rule "Monitoring door is closed "
+	when
+     	$lock : Lock(status == "closed")
+    then
+   		System.out.println("La puerta esta cerrada, todo va bien");
+end
+
+
+
+rule "When a Device Lock Event arrives "
+	when
+     	$dle : DeviceLockEvent(value == "open")
+     	$lock : Lock(id == $dle.name)
+     	
+    then
+    	modify($lock){
+   			setStatus($dle.getValue());
+   		}
+    	System.out.println("Ha entrado evento para el lock "+$lock.id);
+end
+
+
+

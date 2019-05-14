@@ -9,4 +9,10 @@ function Integer calculateIncrement(Integer value, int quantity) {
     return value + quantity;
 }
 
+
+query getLockById (String $id, Lock $lock)
+	Lock(id == $id) 
+end
+
+
 dialect  "mvel"
