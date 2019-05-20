@@ -34,3 +34,46 @@ https://github.com/kiegroup/drools/tree/6.0.x/drools-examples-api
 
 Load a session with JPA 
 https://access.redhat.com/documentation/en-us/red_hat_jboss_bpm_suite/6.1/html/development_guide/sect-kie_configuration
+
+examples, esta bastante bien
+http://docs.jboss.org/drools/release/6.2.0.CR3/drools-docs/html/ch19.html#d0e19310
+
+Mirar agenda group
+
+Decision tables es la implementacion XLS
+
+insertLogical creo que hace un retracted
+
+Kiesession setLogger
+
+https://github.com/DuncanDoyle/drools-serialization/blob/master/drools-serialization-app_1-4/pom.xml
+https://github.com/DuncanDoyle/drools-serialization/blob/master/drools-serialization-util/src/main/java/org/jboss/ddoyle/drools/demo/serialization/FileKieSessionLoader.java
+
+
+Load rules at runtime
+https://groups.google.com/forum/#!topic/drools-usage/QkFXGXkBUO8
+https://www.programcreek.com/java-api-examples/?api=org.kie.api.builder.ReleaseId
+http://drools-moved.46999.n3.nabble.com/Dynamically-loading-rules-in-KieBase-td4030351.html
+https://github.com/kiegroup/drools/blob/184765346e998430064a4935fbb358930946d82c/drools-compiler/src/test/java/org/drools/compiler/integrationtests/IncrementalCompilationTest.java
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+GET http://localhost:8080/alarm
+
+
+POST http://localhost:8080/events/lock/EntranceLock
+Content-Type:application/json
+{
+  "id": "EntranceLock",
+  "status": "open"
+}
+
+GET http://localhost:8080/events/lockEvent/EntranceLock
+Content-Type:application/json
+{
+  "name": "EntranceLock",
+  "value": "open"
+}
+    

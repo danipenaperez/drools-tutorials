@@ -1,0 +1,11 @@
+Revisar
+
+
+Como es sesion sin estado, con dispose()
+
+
+-insertLogical
+
+-Mirar los facts que existen en el contexto y ver si se pueden deshacer y para que seria
+
+-Retract, que es? cual es su finalidad?

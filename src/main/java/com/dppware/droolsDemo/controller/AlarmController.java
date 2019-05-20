@@ -19,5 +19,7 @@ public class AlarmController {
 	public CentralAlarm getAlarm() {
 		return centralAlarm.getAlarm();
     }
+	
+	
 
 }

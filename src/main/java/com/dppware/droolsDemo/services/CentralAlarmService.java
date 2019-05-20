@@ -1,6 +1,7 @@
 package com.dppware.droolsDemo.services;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -21,6 +22,7 @@ import com.dppware.droolsDemo.bean.device.Lock;
 import com.dppware.droolsDemo.bean.device.PresenceSensor;
 import com.dppware.droolsDemo.bean.event.DeviceLockEvent;
 import com.dppware.droolsDemo.bean.event.PresenceSensorEvent;
+import com.dppware.droolsDemo.utils.KIESessionUtils;
 
 @Service
 public class CentralAlarmService {
@@ -80,8 +82,11 @@ public class CentralAlarmService {
 	
 	public void processDeviceEvent(Lock deviceEvent) {
 		System.out.println("hola");
+		System.out.println("ANTES DE ENTRAR hay "+kieSession.getFactCount());
 		Collection<Lock> myfacts = (Collection<Lock>) kieSession.getObjects( new ClassObjectFilter(Lock.class) );
 		kieSession.insert(deviceEvent);
+		System.out.println("Al SALIR HAY hay "+kieSession.getFactCount());
+		
 	}
 	
 	public void processDeviceEvent(DeviceLockEvent deviceEvent) {
@@ -117,23 +122,32 @@ public class CentralAlarmService {
 		return alarm.getDevices().get(id);
 	}
 	
+	private byte[] toStore;
+	
 	
 	/***
 	 * SERIALIZE MARSHALLING
 	 * @throws IOException 
 	 */
 	public void stopSession() throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Marshaller marshaller = KieServices.Factory.get().getMarshallers().newMarshaller( kieSession.getKieBase() );
-		marshaller.marshall( baos, kieSession );
-		baos.close();
+		KIESessionUtils.save(kieSession, new File("./sessionserialized"));
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		Marshaller marshaller = KieServices.Factory.get().getMarshallers().newMarshaller( kieSession.getKieBase() );
+//		marshaller.marshall( baos, kieSession );
+//		toStore = baos.toByteArray();
+//		baos.close();
 	}
 	
 	public void restartSession() {
-		KieServices kieServices = KieServices.Factory.get();
-		Integer kieSessionId = kieSession.getId();
+		System.out.println(toStore);
+	
+		KieSession ksession = KIESessionUtils.load(new File("./sessionserialized"));
+		//kieContainer.getKieBase().getKieSessions().add(ksession);
 		
-		KieSession ksession = kieServices.getStoreServices().loadKieSession( kieSessionId, kieSession.getKieBase(), null, kieSession.getEnvironment() );
+//		KieServices kieServices = KieServices.Factory.get();
+//		Integer kieSessionId = kieSession.getId();
+//		
+//		KieSession ksession = kieServices.getStoreServices().loadKieSession( kieSessionId, kieSession.getKieBase(), null, kieSession.getEnvironment() );
 	}
 	
 	

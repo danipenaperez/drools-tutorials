@@ -19,8 +19,11 @@ import com.dppware.droolsDemo.bean.event.DeviceLockEvent;
 import com.dppware.droolsDemo.bean.event.PresenceSensorEvent;
 import com.dppware.droolsDemo.services.CentralAlarmService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("events")
+@Slf4j
 public class EventsController {
 	
 	@Autowired

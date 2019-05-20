@@ -1,5 +1,6 @@
 package com.dppware.droolsDemo.bean;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @NoArgsConstructor @ToString @AllArgsConstructor
-public class CentralAlarm {
+public class CentralAlarm implements Serializable{
 	public CentralAlarm(String name, String status) {
 		this.name=name;
 		this.status=status;
